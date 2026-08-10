@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ThreeBackground } from "./canvas/ThreeBackground";
 import { CustomCursor } from "./components/common/CustomCursor";
 import { Preloader } from "./components/common/Preloader";
-import { Nav } from "./components/layout/Nav";
 import { FullpageScroll } from "./components/layout/FullpageScroll";
 import { Hero } from "./components/sections/Hero";
 import { About } from "./components/sections/About";
@@ -22,19 +21,15 @@ export default function App() {
       <CustomCursor />
       <Preloader onDone={() => setReady(true)} />
       <div style={{ position: "relative", zIndex: 1 }}>
-        <Nav
-          ready={ready}
-          activeIndex={activeSection}
-          onSelectSection={(idx) => setTargetSection(idx)}
-        />
         <FullpageScroll
+          ready={ready}
           targetIndex={targetSection}
           onSectionChange={(idx) => {
             setActiveSection(idx);
             setTargetSection(undefined);
           }}
         >
-          <Hero ready={ready} />
+          <Hero ready={ready} onSelectSection={(idx) => setTargetSection(idx)} />
           <About />
           <Services />
           <ProjectsSection />

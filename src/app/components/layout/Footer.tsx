@@ -5,7 +5,7 @@ export function Footer() {
       style={{ borderTop: "1px solid rgba(0,245,196,0.05)", position: "relative", zIndex: 2 }}
     >
       <span className="font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase" style={{ color: "rgba(237,234,225,0.1)" }}>
-        &copy; {new Date().getFullYear()} — Portfolio
+        &copy; {new Date().getFullYear()} — Portfolio Website
       </span>
       <span className="font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase" style={{ color: "rgba(237,234,225,0.1)" }}>
         Designed and Built by Alexander Brian Susanto

@@ -6,26 +6,27 @@ export interface NavDestination {
   id: string;
   code: string;
   label: string;
-  depth: string;
 }
 
 const DESTINATIONS: NavDestination[] = [
-  { id: "hero", code: "00", label: "HERO", depth: "12M" },
-  { id: "about", code: "01", label: "ABOUT", depth: "60M" },
-  { id: "services", code: "02", label: "SERVICES", depth: "78M" },
-  { id: "projects", code: "03", label: "PROJECTS", depth: "110M" },
-  { id: "stack", code: "04", label: "STACK", depth: "250M" },
-  { id: "contact", code: "05", label: "CONTACT", depth: "260M" },
+  { id: "hero", code: "01", label: "HERO" },
+  { id: "about", code: "02", label: "ABOUT" },
+  { id: "services", code: "03", label: "SERVICES" },
+  { id: "projects", code: "04", label: "PROJECTS" },
+  { id: "stack", code: "05", label: "STACK" },
+  { id: "contact", code: "06", label: "CONTACT" },
 ];
 
 export function Nav({
   ready,
   activeIndex = 0,
   onSelectSection,
+  scale = 1,
 }: {
   ready: boolean;
   activeIndex?: number;
   onSelectSection?: (index: number) => void;
+  scale?: number;
 }) {
   const [divingTo, setDivingTo] = useState<string | null>(null);
 
@@ -44,14 +45,23 @@ export function Nav({
 
   return (
     <header
-      className="fixed top-0 inset-x-0 z-50 pointer-events-auto select-none"
+      className="fixed top-0 inset-x-0 w-full z-50 pointer-events-auto select-none"
       style={{
         transform: ready ? "translateY(0)" : "translateY(-100%)",
         transition: "transform .8s cubic-bezier(0.16,1,0.3,1) .2s",
       }}
     >
-      {/* Holographic Header Bar */}
-      <div className="bg-[#000c1a]/90 backdrop-blur-xl border-b border-[#00f5c4]/30 px-4 md:px-8 py-2.5 flex items-center justify-between shadow-[0_4px_25px_rgba(0,245,196,0.15)]">
+      {/* Full-width screen background strip spanning 100% width */}
+      {/* <div className="absolute inset-0 w-full h-full bg-[#000c1a]/90 backdrop-blur-xl border-b border-[#00f5c4]/30 shadow-[0_4px_25px_rgba(0,245,196,0.15)] pointer-events-none" /> */}
+
+      {/* Auto-scaled Holographic Header Bar & Card Rectangles */}
+      <div
+        className="relative z-10 w-full max-w-[1920px] mx-auto px-6 md:px-12 py-3.5 flex items-center justify-between transition-transform duration-75"
+        style={{
+          transform: scale !== 1 ? `scale(${scale})` : "none",
+          transformOrigin: "top center",
+        }}
+      >
         
         {/* Left: Cab & Auto-Dive System Status */}
         <button
@@ -66,7 +76,7 @@ export function Nav({
               ◈ NAVIGATION SYSTEM
             </span>
             <span className="font-['DM_Mono'] text-[9px] text-white/50 tracking-wider">
-              {divingTo ? `AUTO-DIVING TO [${divingTo.toUpperCase()}]...` : "DESTINATION PANEL"}
+              {divingTo ? `AUTO-DIVING TO ${divingTo.toUpperCase()}...` : "DESTINATION PANEL"}
             </span>
           </div>
         </button>
@@ -89,7 +99,6 @@ export function Nav({
                   <span className="w-1.5 h-1.5 rounded-full bg-[#00f5c4] animate-ping" />
                 )}
                 <span>{dest.code} {dest.label}</span>
-                <span className="text-[9px] opacity-40">[{dest.depth}]</span>
               </button>
             );
           })}
@@ -121,7 +130,7 @@ export function Nav({
                   : "bg-white/5 border border-white/10 text-white/60"
               }`}
             >
-              {dest.code} {dest.label} [{dest.depth}]
+              {dest.code} {dest.label}
             </button>
           );
         })}

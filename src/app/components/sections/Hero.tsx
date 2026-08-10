@@ -1,59 +1,77 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MagBtn } from "../common/MagBtn";
 import { SplitChars } from "../common/TextAnimations";
 import { User, ShieldCheck, Sparkles, ArrowDownRight } from "lucide-react";
 
-export function Hero({ ready }: { ready: boolean }) {
+export function Hero({
+  ready,
+  onSelectSection,
+}: {
+  ready: boolean;
+  onSelectSection?: (index: number) => void;
+}) {
   const [imgError, setImgError] = useState(false);
-  const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
+  const go = (id: string) => {
+    const idMap: Record<string, number> = {
+      hero: 0,
+      about: 1,
+      services: 2,
+      projects: 3,
+      stack: 4,
+      contact: 5,
+    };
+    if (typeof idMap[id] === "number" && onSelectSection) {
+      onSelectSection(idMap[id]);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
-    <section id="hero" className="relative w-full h-full flex flex-col justify-between px-4 sm:px-8 md:px-12 py-[clamp(0.75rem,2vh,2rem)] max-w-[1440px] mx-auto overflow-hidden">
+    <section id="hero" className="relative w-full h-full flex flex-col justify-between px-6 md:px-16 py-8 md:py-12 max-w-[1920px] mx-auto overflow-hidden">
       <div className="section-content w-full flex-1 flex flex-col justify-between relative z-10 mx-auto my-auto">
         
         {/* Main Grid: Left Name & Bio, Right Holographic Profile Photo */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(1rem,3vw,2.5rem)] items-center my-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center my-auto">
           
           {/* LEFT COLUMN: Name Typography & Intro */}
-          <div className="lg:col-span-7 flex flex-col justify-center relative z-10">
+          <div className="lg:col-span-6 flex flex-col justify-center max-w-[680px] ml-auto w-full relative z-10">
             
             {/* Top Developer Badge */}
             <div
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00f5c4]/10 border border-[#00f5c4]/30 w-fit mb-[clamp(0.75rem,2vh,1.5rem)] shadow-[0_0_15px_rgba(0,245,196,0.15)]"
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#00f5c4]/10 border border-[#00f5c4]/30 w-fit mb-6 shadow-[0_0_20px_rgba(0,245,196,0.15)]"
               style={{
                 opacity: ready ? 1 : 0,
                 transform: ready ? "translateY(0)" : "translateY(-10px)",
                 transition: "all .8s ease .4s",
               }}
             >
-              <span className="w-2 h-2 rounded-full bg-[#00f5c4] animate-ping" />
-              <span className="font-['DM_Mono'] text-[10px] tracking-[0.25em] text-[#00f5c4] uppercase font-bold">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#00f5c4] animate-ping" />
+              <span className="font-['DM_Mono'] text-xs tracking-[0.25em] text-[#00f5c4] uppercase font-bold">
                 ◈ FULLSTACK DEVELOPER
               </span>
             </div>
 
             {/* Name Headline */}
-            <div style={{ position: "relative", zIndex: 2, marginBottom: "clamp(0.75rem, 2vh, 1.25rem)" }}>
+            <div style={{ position: "relative", zIndex: 2, marginBottom: "1.5rem" }}>
               <div style={{ overflow: "hidden", lineHeight: 0.9 }}>
-                <div className="font-['Archivo_Black'] tracking-[-0.03em]" style={{ fontSize: "clamp(2.4rem, 5.2vw, 5.2rem)", color: "#edeae1" }}>
+                <div className="font-['Archivo_Black'] text-4xl sm:text-6xl md:text-[88px] tracking-[-0.03em]" style={{ color: "#edeae1" }}>
                   <SplitChars text="ALEXANDER" delay={0.1} active={ready} />
                 </div>
               </div>
               <div style={{ overflow: "hidden", lineHeight: 0.9 }}>
                 <div
-                  className="font-['Archivo_Black'] tracking-[-0.03em]"
-                  style={{ fontSize: "clamp(2.4rem, 5.2vw, 5.2rem)", color: "transparent", WebkitTextStroke: "2px #00f5c4" }}
+                  className="font-['Archivo_Black'] text-4xl sm:text-6xl md:text-[88px] tracking-[-0.03em]"
+                  style={{ color: "transparent", WebkitTextStroke: "2px #00f5c4" }}
                 >
                   <SplitChars text="BRIAN" delay={0.2} active={ready} />
                 </div>
               </div>
               <div style={{ overflow: "hidden", lineHeight: 0.9 }}>
                 <div
-                  className="font-['Archivo_Black'] tracking-[-0.03em]"
-                  style={{
-                    fontSize: "clamp(2.4rem, 5.2vw, 5.2rem)",
-                    color: "#00f5c4",
-                  }}
+                  className="font-['Archivo_Black'] text-4xl sm:text-6xl md:text-[88px] tracking-[-0.03em]"
+                  style={{ color: "#00f5c4" }}
                 >
                   <SplitChars
                     text="SUSANTO"
@@ -66,7 +84,7 @@ export function Hero({ ready }: { ready: boolean }) {
 
             {/* CTAs & Quick Buttons */}
             <div
-              className="flex items-center gap-4 mt-[clamp(0.75rem,2.5vh,1.75rem)] flex-wrap"
+              className="flex items-center gap-4 mt-6 flex-wrap"
               style={{
                 opacity: ready ? 1 : 0,
                 transform: ready ? "translateY(0)" : "translateY(15px)",
@@ -75,49 +93,71 @@ export function Hero({ ready }: { ready: boolean }) {
             >
               <MagBtn
                 onClick={() => go("projects")}
-                className="font-['DM_Mono'] text-xs tracking-[0.15em] uppercase px-6 py-3 rounded-lg transition-all border border-[#00f5c4] text-[#00f5c4] bg-[#00f5c4]/10 hover:bg-[#00f5c4] hover:text-[#020817] shadow-[0_0_20px_rgba(0,245,196,0.2)] flex items-center gap-2"
+                className="font-['DM_Mono'] text-xs md:text-sm tracking-[0.15em] uppercase px-8 py-4 rounded-xl transition-all border border-[#00f5c4] text-[#00f5c4] bg-[#00f5c4]/10 hover:bg-[#00f5c4] hover:text-[#020817] shadow-[0_0_25px_rgba(0,245,196,0.25)] flex items-center gap-2.5"
               >
                 <span>View Work</span>
-                <ArrowDownRight className="w-4 h-4" />
+                <ArrowDownRight className="w-4.5 h-4.5" />
               </MagBtn>
               <MagBtn
                 onClick={() => go("contact")}
-                className="font-['DM_Mono'] text-xs tracking-[0.15em] uppercase px-6 py-3 rounded-lg transition-all border border-white/20 text-white/70 hover:text-white hover:border-white/50 bg-white/5"
+                className="font-['DM_Mono'] text-xs md:text-sm tracking-[0.15em] uppercase px-8 py-4 rounded-xl transition-all border border-white/20 text-white/70 hover:text-white hover:border-white/50 bg-white/5"
               >
                 Get In Touch
               </MagBtn>
+            </div>
+
+            {/* Bottom Metrics Bar */}
+            <div
+              className="mt-16 pt-6 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl"
+              style={{
+                opacity: ready ? 1 : 0,
+                transform: ready ? "translateY(0)" : "translateY(20px)",
+                transition: "all .8s ease 1s",
+              }}
+            >
+              {[
+                ["5+", "PROJECTS BUILT"],
+                ["10+", "TECH & TOOLS"],
+                ["1+", "YEARS EXP."],
+                ["100%", "OPEN TO LEARN"],
+              ].map(([val, label]) => (
+                <div key={label} className="flex flex-col">
+                  <span className="font-['Archivo_Black'] text-xl md:text-3xl text-[#edeae1]">{val}</span>
+                  <span className="font-['DM_Mono'] text-[10px] tracking-[0.2em] text-white/40 mt-1">{label}</span>
+                </div>
+              ))}
             </div>
 
           </div>
 
           {/* RIGHT COLUMN: Holographic Glass Profile Photo Card */}
           <div
-            className="lg:col-span-5 flex justify-center lg:justify-end relative z-10"
+            className="lg:col-span-6 flex justify-center lg:justify-center relative z-10 my-4 lg:my-0"
             style={{
               opacity: ready ? 1 : 0,
               transform: ready ? "translateY(0)" : "translateY(30px)",
               transition: "all 1s cubic-bezier(0.16,1,0.3,1) .6s",
             }}
           >
-            <div className="relative w-full max-w-[clamp(280px,26vw,420px)] aspect-[4/5] rounded-2xl p-4 md:p-5 bg-[#000c1a]/70 backdrop-blur-2xl border border-[#00f5c4]/30 shadow-[0_0_40px_rgba(0,12,26,0.9)] group transition-all duration-500 hover:border-[#00f5c4]/70 hover:shadow-[0_0_35px_rgba(0,245,196,0.25)] flex flex-col justify-between overflow-hidden">
+            <div className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[480px] aspect-[4/5] rounded-2xl p-5 md:p-6 bg-[#000c1a]/70 backdrop-blur-2xl border border-[#00f5c4]/30 shadow-[0_0_40px_rgba(0,12,26,0.9)] group transition-all duration-500 hover:border-[#00f5c4]/70 hover:shadow-[0_0_35px_rgba(0,245,196,0.25)] flex flex-col justify-between overflow-hidden">
               
               {/* Corner Rivets */}
-              <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
-              <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
-              <div className="absolute bottom-2 left-2 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
-              <div className="absolute bottom-2 right-2 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
+              <div className="absolute top-2.5 left-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
+              <div className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
+              <div className="absolute bottom-2.5 left-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
+              <div className="absolute bottom-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
 
               {/* Top Photo Card Header */}
-              <div className="relative z-10 flex items-center justify-between pb-2 border-b border-white/10 font-['DM_Mono'] text-[10px]">
+              <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-white/10 font-['DM_Mono'] text-[11px]">
                 <div className="flex items-center gap-1.5 text-[#00f5c4]">
-                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <ShieldCheck className="w-4 h-4" />
                   <span>USER PROFILE</span>
                 </div>
                 <span className="text-white/40 tracking-wider">INDONESIA</span>
               </div>
 
               {/* Center Photo Display Container */}
-              <div className="relative z-10 flex-1 my-2 rounded-xl overflow-hidden border border-white/10 bg-[#000611] flex items-center justify-center group-hover:border-[#00f5c4]/40 transition-colors">
+              <div className="relative z-10 flex-1 my-3 rounded-xl overflow-hidden border border-white/10 bg-[#000611] flex items-center justify-center group-hover:border-[#00f5c4]/40 transition-colors">
                 {!imgError ? (
                   <img
                     src="/profile.JPG"
@@ -134,7 +174,7 @@ export function Hero({ ready }: { ready: boolean }) {
                       Alexander Brian Susanto
                     </span>
                     <span className="font-['DM_Mono'] text-[9px] text-white/40 max-w-[200px]">
-                      Place your photo at <code className="text-[#00f5c4]">public/profile.png</code> or <code className="text-[#00f5c4]">public/profile.jpg</code>
+                      Place your photo at <code className="text-[#00f5c4]">public/profile.JPG</code>
                     </span>
                   </div>
                 )}
@@ -144,39 +184,17 @@ export function Hero({ ready }: { ready: boolean }) {
               </div>
 
               {/* Bottom Photo Card Status Strip */}
-              <div className="relative z-10 pt-2 border-t border-white/10 flex items-center justify-between font-['DM_Mono'] text-[10px]">
+              <div className="relative z-10 pt-2.5 border-t border-white/10 flex items-center justify-between font-['DM_Mono'] text-[11px]">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#00f5c4] animate-pulse shadow-[0_0_8px_#00f5c4]" />
                   <span className="text-white/80 tracking-wider">OPEN TO WORK</span>
                 </div>
-                <Sparkles className="w-3.5 h-3.5 text-[#00f5c4]" />
+                <Sparkles className="w-4 h-4 text-[#00f5c4]" />
               </div>
 
             </div>
           </div>
 
-        </div>
-
-        {/* Bottom Metrics Bar */}
-        <div
-          className="mt-[clamp(0.75rem,2vh,1.75rem)] pt-[clamp(0.5rem,1.5vh,1.25rem)] border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl"
-          style={{
-            opacity: ready ? 1 : 0,
-            transform: ready ? "translateY(0)" : "translateY(20px)",
-            transition: "all .8s ease 1s",
-          }}
-        >
-          {[
-            ["5+", "PROJECTS BUILT"],
-            ["10+", "TECH & TOOLS"],
-            ["1+", "YEARS EXP."],
-            ["100%", "OPEN TO LEARN"],
-          ].map(([val, label]) => (
-            <div key={label} className="flex flex-col">
-              <span className="font-['Archivo_Black'] text-lg md:text-2xl text-[#edeae1]">{val}</span>
-              <span className="font-['DM_Mono'] text-[9px] tracking-[0.2em] text-white/40 mt-0.5">{label}</span>
-            </div>
-          ))}
         </div>
 
       </div>

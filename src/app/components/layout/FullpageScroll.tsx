@@ -4,6 +4,8 @@ import { Observer } from "gsap/Observer";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { SectionNav } from "../common/SectionNav";
+import { Nav } from "./Nav";
+import { useViewportScaler } from "../../hooks/useViewportScaler";
 
 gsap.registerPlugin(Observer, ScrollTrigger);
 
@@ -11,6 +13,7 @@ interface FullpageScrollProps {
   children: React.ReactNode[];
   onSectionChange?: (index: number) => void;
   targetIndex?: number;
+  ready?: boolean;
 }
 
 const SECTIONS = [
@@ -22,23 +25,28 @@ const SECTIONS = [
   { id: "contact", label: "06 — CONTACT" },
 ];
 
-export function FullpageScroll({ children, onSectionChange, targetIndex }: FullpageScrollProps) {
+export function FullpageScroll({ children, onSectionChange, targetIndex, ready = false }: FullpageScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const bgOverlayRef = useRef<HTMLDivElement>(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const isAnimatingRef = useRef(false);
   const activeIndexRef = useRef(0);
   activeIndexRef.current = activeIndex;
 
+  const { scale, isMobile } = useViewportScaler();
   const totalSections = React.Children.count(children);
 
   const { contextSafe } = useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || isMobile) return;
 
-      // Set initial transparent radial gradient background for Hero section so 3D Canvas shines through
-      gsap.set(containerRef.current, {
-        background: "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.4) 70%)",
-      });
+      // Set initial transparent radial gradient background for Hero section across full screen
+      if (bgOverlayRef.current) {
+        gsap.set(bgOverlayRef.current, {
+          background: "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.7) 70%)",
+        });
+      }
 
       const sectionElements = containerRef.current.querySelectorAll<HTMLElement>(".fullpage-section");
 
@@ -63,7 +71,7 @@ export function FullpageScroll({ children, onSectionChange, targetIndex }: Fullp
         }
       });
 
-      // Create Observer for smooth wheel, touch, and pointer events
+      // Create Observer for smooth wheel, touch, and pointer events on desktop
       const observer = Observer.create({
         target: window,
         type: "wheel,touch,pointer",
@@ -103,7 +111,7 @@ export function FullpageScroll({ children, onSectionChange, targetIndex }: Fullp
         window.removeEventListener("keydown", handleKeyDown);
       };
     },
-    { scope: containerRef, dependencies: [totalSections] }
+    { scope: containerRef, dependencies: [totalSections, isMobile] }
   );
 
   const gotoSection = contextSafe((nextIndex: number, direction: number) => {
@@ -111,7 +119,8 @@ export function FullpageScroll({ children, onSectionChange, targetIndex }: Fullp
       isAnimatingRef.current ||
       nextIndex < 0 ||
       nextIndex >= totalSections ||
-      nextIndex === activeIndexRef.current
+      nextIndex === activeIndexRef.current ||
+      isMobile
     ) {
       return;
     }
@@ -131,18 +140,18 @@ export function FullpageScroll({ children, onSectionChange, targetIndex }: Fullp
     const currentSec = sectionElements[currentIndex];
     const nextSec = sectionElements[nextIndex];
 
-    // Background gradient shift effect
+    // Background gradient shift effect across full screen backdrop
     const bgGrads = [
-      "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 1) 70%)",
-      "radial-gradient(ellipse at 70% 50%, rgba(140, 0, 255, 0.08) 0%, rgba(2, 8, 23, 1) 70%)",
-      "radial-gradient(ellipse at 30% 60%, rgba(255, 45, 107, 0.08) 0%, rgba(2, 8, 23, 1) 70%)",
-      "radial-gradient(ellipse at 50% 50%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 1) 70%)",
-      "radial-gradient(ellipse at 80% 40%, rgba(140, 0, 255, 0.09) 0%, rgba(2, 8, 23, 1) 70%)",
-      "radial-gradient(ellipse at 40% 70%, rgba(255, 45, 107, 0.09) 0%, rgba(2, 8, 23, 1) 70%)",
+      "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 70% 50%, rgba(140, 0, 255, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 30% 60%, rgba(255, 45, 107, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 50% 50%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 80% 40%, rgba(140, 0, 255, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 40% 70%, rgba(255, 45, 107, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
     ];
 
-    if (containerRef.current) {
-      gsap.to(containerRef.current, {
+    if (bgOverlayRef.current) {
+      gsap.to(bgOverlayRef.current, {
         background: bgGrads[nextIndex % bgGrads.length],
         duration: 1.2,
         ease: "power2.inOut",
@@ -219,6 +228,17 @@ export function FullpageScroll({ children, onSectionChange, targetIndex }: Fullp
   });
 
   const handleSelectSection = (targetIdx: number) => {
+    if (isMobile) {
+      const sectionIds = ["hero", "about", "services", "projects", "stack", "contact"];
+      const targetId = sectionIds[targetIdx];
+      if (targetId) {
+        document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
+      }
+      setActiveIndex(targetIdx);
+      if (onSectionChange) onSectionChange(targetIdx);
+      return;
+    }
+
     if (targetIdx === activeIndexRef.current || isAnimatingRef.current) return;
     const direction = targetIdx > activeIndexRef.current ? 1 : -1;
     gotoSection(targetIdx, direction);
@@ -230,22 +250,61 @@ export function FullpageScroll({ children, onSectionChange, targetIndex }: Fullp
     }
   }, [targetIndex]);
 
+  // Render Mobile Layout (<= 768px): Normal Vertical Scroll
+  if (isMobile) {
+    return (
+      <div className="w-full min-h-screen overflow-y-auto bg-transparent py-16 px-4 flex flex-col gap-20 relative z-10">
+        <Nav ready={ready} activeIndex={activeIndex} onSelectSection={handleSelectSection} />
+        <SectionNav activeIndex={activeIndex} onSelectSection={handleSelectSection} sections={SECTIONS} />
+        {React.Children.map(children, (child, idx) => (
+          <div key={idx} className="w-full flex flex-col items-center justify-center">
+            {child}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // Render Desktop Layout (> 768px): Auto-Scaled 1920x1080 Fixed Virtual Canvas
   return (
-    <>
-      <SectionNav activeIndex={activeIndex} onSelectSection={handleSelectSection} sections={SECTIONS} />
+    <div className="fixed inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-transparent z-10 select-none">
+      {/* Full-width Top Navbar spanning 100% screen width with inner content scaled proportionally */}
+      <Nav ready={ready} activeIndex={activeIndex} onSelectSection={handleSelectSection} scale={scale} />
+
+      {/* Fixed Right Side Section Indicator dots scaled proportionally */}
+      <SectionNav activeIndex={activeIndex} onSelectSection={handleSelectSection} sections={SECTIONS} scale={scale} />
+
+      {/* Full screen backdrop gradient covering 100vw x 100vh with no side gaps */}
+      <div
+        ref={bgOverlayRef}
+        className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-1000"
+        style={{
+          background: "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+        }}
+      />
+
+      {/* 1920x1080 Auto-Scaled Virtual Canvas Container */}
       <div
         ref={containerRef}
-        className="fixed inset-0 w-full h-full overflow-hidden bg-transparent transition-colors duration-1000"
+        className="relative overflow-hidden bg-transparent shadow-2xl transition-transform duration-75"
+        style={{
+          width: 1920,
+          height: 1080,
+          transform: `scale(${scale})`,
+          transformOrigin: "center center",
+          flexShrink: 0,
+        }}
       >
+        {/* 1920x1080 Section Slides */}
         {React.Children.map(children, (child, idx) => (
           <div
             key={idx}
-            className="fullpage-section absolute inset-0 w-full h-full flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 py-4 md:py-8 overflow-hidden"
+            className="fullpage-section absolute inset-0 w-[1920px] h-[1080px] pt-16 flex flex-col justify-center items-center overflow-hidden"
           >
             {child}
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

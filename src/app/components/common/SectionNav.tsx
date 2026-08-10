@@ -4,6 +4,7 @@ interface SectionNavProps {
   activeIndex: number;
   onSelectSection: (index: number) => void;
   sections?: { id: string; label: string }[];
+  scale?: number;
 }
 
 const DEFAULT_SECTIONS = [
@@ -19,10 +20,15 @@ export function SectionNav({
   activeIndex,
   onSelectSection,
   sections = DEFAULT_SECTIONS,
+  scale = 1,
 }: SectionNavProps) {
   return (
     <nav
-      className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-end gap-3 pointer-events-auto select-none"
+      className="fixed right-6 top-1/2 z-50 flex flex-col items-end gap-3 pointer-events-auto select-none transition-transform duration-75"
+      style={{
+        transform: scale !== 1 ? `translateY(-50%) scale(${scale})` : "translateY(-50%)",
+        transformOrigin: "center right",
+      }}
       aria-label="Section Navigation"
     >
       {sections.map((section, idx) => {
