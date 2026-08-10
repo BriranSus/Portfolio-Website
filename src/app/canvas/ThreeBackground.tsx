@@ -9,23 +9,16 @@ import { FLOOR_RX, getTerrainElevation, getFloorHeight } from "./terrain/oceanTe
 import { createPRNG } from "./utils/prng";
 import { loadGLTF, scatterStatic, disposeGroup } from "./utils/modelUtils";
 
-export function ThreeBackground() {
+export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const scrollRef = useRef(0);
+  const targetScrollRef = useRef(0);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollProgress = Math.min(1, Math.max(0, activeIndex / 5));
 
   useEffect(() => {
-    const fn = () => {
-      const scrollMax = Math.max(1, document.body.scrollHeight - window.innerHeight);
-      const sc = window.scrollY / scrollMax;
-      scrollRef.current = sc;
-      setScrollProgress(Math.min(1, Math.max(0, sc)));
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    fn();
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
+    targetScrollRef.current = scrollProgress;
+  }, [scrollProgress]);
 
   useEffect(() => {
     const fn = (e: MouseEvent) => {
@@ -313,6 +306,9 @@ export function ThreeBackground() {
       const delta = clock.getDelta();
       tAccum += delta;
       const t = tAccum;
+      
+      // Smooth 60fps fluid camera depth lerp
+      scrollRef.current += (targetScrollRef.current - scrollRef.current) * 0.05;
       const sc = scrollRef.current;
       const mx = mouseRef.current.x;
 

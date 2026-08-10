@@ -8,18 +8,18 @@ export function Hero({ ready }: { ready: boolean }) {
   const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col justify-between px-6 md:px-12 lg:px-16 pt-28 pb-12 w-full overflow-hidden">
-      <div className="w-full flex-1 flex flex-col justify-center relative z-10 max-w-[1700px] mx-auto">
+    <section id="hero" className="relative w-full h-full flex flex-col justify-between px-4 sm:px-8 md:px-12 py-[clamp(0.75rem,2vh,2rem)] max-w-[1440px] mx-auto overflow-hidden">
+      <div className="section-content w-full flex-1 flex flex-col justify-between relative z-10 mx-auto my-auto">
         
         {/* Main Grid: Left Name & Bio, Right Holographic Profile Photo */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(1rem,3vw,2.5rem)] items-center my-auto">
           
           {/* LEFT COLUMN: Name Typography & Intro */}
-          <div className="lg:col-span-6 flex flex-col justify-center relative z-10">
+          <div className="lg:col-span-7 flex flex-col justify-center relative z-10">
             
-            {/* Top Subsea Pilot / Developer Badge */}
+            {/* Top Developer Badge */}
             <div
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00f5c4]/10 border border-[#00f5c4]/30 w-fit mb-6 shadow-[0_0_15px_rgba(0,245,196,0.15)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00f5c4]/10 border border-[#00f5c4]/30 w-fit mb-[clamp(0.75rem,2vh,1.5rem)] shadow-[0_0_15px_rgba(0,245,196,0.15)]"
               style={{
                 opacity: ready ? 1 : 0,
                 transform: ready ? "translateY(0)" : "translateY(-10px)",
@@ -33,16 +33,16 @@ export function Hero({ ready }: { ready: boolean }) {
             </div>
 
             {/* Name Headline */}
-            <div style={{ position: "relative", zIndex: 2, marginBottom: 16 }}>
+            <div style={{ position: "relative", zIndex: 2, marginBottom: "clamp(0.75rem, 2vh, 1.25rem)" }}>
               <div style={{ overflow: "hidden", lineHeight: 0.9 }}>
-                <div className="font-['Archivo_Black'] tracking-[-0.03em]" style={{ fontSize: "clamp(3.2rem,8.5vw,7.5rem)", color: "#edeae1" }}>
+                <div className="font-['Archivo_Black'] tracking-[-0.03em]" style={{ fontSize: "clamp(2.4rem, 5.2vw, 5.2rem)", color: "#edeae1" }}>
                   <SplitChars text="ALEXANDER" delay={0.1} active={ready} />
                 </div>
               </div>
               <div style={{ overflow: "hidden", lineHeight: 0.9 }}>
                 <div
                   className="font-['Archivo_Black'] tracking-[-0.03em]"
-                  style={{ fontSize: "clamp(3.2rem,8.5vw,7.5rem)", color: "transparent", WebkitTextStroke: "2px #00f5c4" }}
+                  style={{ fontSize: "clamp(2.4rem, 5.2vw, 5.2rem)", color: "transparent", WebkitTextStroke: "2px #00f5c4" }}
                 >
                   <SplitChars text="BRIAN" delay={0.2} active={ready} />
                 </div>
@@ -51,7 +51,7 @@ export function Hero({ ready }: { ready: boolean }) {
                 <div
                   className="font-['Archivo_Black'] tracking-[-0.03em]"
                   style={{
-                    fontSize: "clamp(3.2rem,8.5vw,7.5rem)",
+                    fontSize: "clamp(2.4rem, 5.2vw, 5.2rem)",
                     color: "#00f5c4",
                   }}
                 >
@@ -64,21 +64,9 @@ export function Hero({ ready }: { ready: boolean }) {
               </div>
             </div>
 
-            {/* Subtitle Bio
-            <p
-              className="font-['DM_Mono'] text-xs md:text-sm leading-relaxed text-white/70 max-w-xl mb-8"
-              style={{
-                opacity: ready ? 1 : 0,
-                transform: ready ? "translateY(0)" : "translateY(15px)",
-                transition: "all .8s ease .6s",
-              }}
-            >
-              I am a Computer Science undergraduate passionate about Full-Stack Web Development, with hands-on experience using React.js for the frontend and Laravel API for the backend. I enjoy turning ideas into functional, user-friendly web applications.
-            </p> */}
-
-            {/* CTAs & Quick Metrics */}
+            {/* CTAs & Quick Buttons */}
             <div
-              className="flex items-center gap-4 mt-12 flex-wrap"
+              className="flex items-center gap-4 mt-[clamp(0.75rem,2.5vh,1.75rem)] flex-wrap"
               style={{
                 opacity: ready ? 1 : 0,
                 transform: ready ? "translateY(0)" : "translateY(15px)",
@@ -87,14 +75,14 @@ export function Hero({ ready }: { ready: boolean }) {
             >
               <MagBtn
                 onClick={() => go("projects")}
-                className="font-['DM_Mono'] text-xs tracking-[0.15em] uppercase px-7 py-3.5 rounded-lg transition-all border border-[#00f5c4] text-[#00f5c4] bg-[#00f5c4]/10 hover:bg-[#00f5c4] hover:text-[#020817] shadow-[0_0_20px_rgba(0,245,196,0.2)] flex items-center gap-2"
+                className="font-['DM_Mono'] text-xs tracking-[0.15em] uppercase px-6 py-3 rounded-lg transition-all border border-[#00f5c4] text-[#00f5c4] bg-[#00f5c4]/10 hover:bg-[#00f5c4] hover:text-[#020817] shadow-[0_0_20px_rgba(0,245,196,0.2)] flex items-center gap-2"
               >
                 <span>View Work</span>
                 <ArrowDownRight className="w-4 h-4" />
               </MagBtn>
               <MagBtn
                 onClick={() => go("contact")}
-                className="font-['DM_Mono'] text-xs tracking-[0.15em] uppercase px-7 py-3.5 rounded-lg transition-all border border-white/20 text-white/70 hover:text-white hover:border-white/50 bg-white/5"
+                className="font-['DM_Mono'] text-xs tracking-[0.15em] uppercase px-6 py-3 rounded-lg transition-all border border-white/20 text-white/70 hover:text-white hover:border-white/50 bg-white/5"
               >
                 Get In Touch
               </MagBtn>
@@ -104,14 +92,14 @@ export function Hero({ ready }: { ready: boolean }) {
 
           {/* RIGHT COLUMN: Holographic Glass Profile Photo Card */}
           <div
-            className="lg:col-span-6 flex justify-center lg:justify-end relative z-10"
+            className="lg:col-span-5 flex justify-center lg:justify-end relative z-10"
             style={{
               opacity: ready ? 1 : 0,
               transform: ready ? "translateY(0)" : "translateY(30px)",
               transition: "all 1s cubic-bezier(0.16,1,0.3,1) .6s",
             }}
           >
-            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[520px] aspect-[4/5] rounded-2xl p-5 bg-[#000c1a]/70 backdrop-blur-2xl border border-[#00f5c4]/30 shadow-[0_0_40px_rgba(0,12,26,0.9)] group transition-all duration-500 hover:border-[#00f5c4]/70 hover:shadow-[0_0_35px_rgba(0,245,196,0.25)] flex flex-col justify-between overflow-hidden">
+            <div className="relative w-full max-w-[clamp(280px,26vw,420px)] aspect-[4/5] rounded-2xl p-4 md:p-5 bg-[#000c1a]/70 backdrop-blur-2xl border border-[#00f5c4]/30 shadow-[0_0_40px_rgba(0,12,26,0.9)] group transition-all duration-500 hover:border-[#00f5c4]/70 hover:shadow-[0_0_35px_rgba(0,245,196,0.25)] flex flex-col justify-between overflow-hidden">
               
               {/* Corner Rivets */}
               <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
@@ -129,7 +117,7 @@ export function Hero({ ready }: { ready: boolean }) {
               </div>
 
               {/* Center Photo Display Container */}
-              <div className="relative z-10 flex-1 my-3 rounded-xl overflow-hidden border border-white/10 bg-[#000611] flex items-center justify-center group-hover:border-[#00f5c4]/40 transition-colors">
+              <div className="relative z-10 flex-1 my-2 rounded-xl overflow-hidden border border-white/10 bg-[#000611] flex items-center justify-center group-hover:border-[#00f5c4]/40 transition-colors">
                 {!imgError ? (
                   <img
                     src="/profile.JPG"
@@ -139,8 +127,8 @@ export function Hero({ ready }: { ready: boolean }) {
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center p-6 text-center">
-                    <div className="w-16 h-16 rounded-full bg-[#00f5c4]/10 border border-[#00f5c4]/40 flex items-center justify-center mb-3">
-                      <User className="w-8 h-8 text-[#00f5c4]" />
+                    <div className="w-14 h-14 rounded-full bg-[#00f5c4]/10 border border-[#00f5c4]/40 flex items-center justify-center mb-3">
+                      <User className="w-7 h-7 text-[#00f5c4]" />
                     </div>
                     <span className="font-['DM_Mono'] text-xs text-white/80 font-bold mb-1">
                       Alexander Brian Susanto
@@ -171,7 +159,7 @@ export function Hero({ ready }: { ready: boolean }) {
 
         {/* Bottom Metrics Bar */}
         <div
-          className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl"
+          className="mt-[clamp(0.75rem,2vh,1.75rem)] pt-[clamp(0.5rem,1.5vh,1.25rem)] border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl"
           style={{
             opacity: ready ? 1 : 0,
             transform: ready ? "translateY(0)" : "translateY(20px)",
@@ -185,7 +173,7 @@ export function Hero({ ready }: { ready: boolean }) {
             ["100%", "OPEN TO LEARN"],
           ].map(([val, label]) => (
             <div key={label} className="flex flex-col">
-              <span className="font-['Archivo_Black'] text-xl md:text-2xl text-[#edeae1]">{val}</span>
+              <span className="font-['Archivo_Black'] text-lg md:text-2xl text-[#edeae1]">{val}</span>
               <span className="font-['DM_Mono'] text-[9px] tracking-[0.2em] text-white/40 mt-0.5">{label}</span>
             </div>
           ))}

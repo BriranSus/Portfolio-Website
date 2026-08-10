@@ -18,35 +18,27 @@ const DESTINATIONS: NavDestination[] = [
   { id: "contact", code: "05", label: "CONTACT", depth: "260M" },
 ];
 
-export function Nav({ ready }: { ready: boolean }) {
-  const [activeId, setActiveId] = useState("hero");
+export function Nav({
+  ready,
+  activeIndex = 0,
+  onSelectSection,
+}: {
+  ready: boolean;
+  activeIndex?: number;
+  onSelectSection?: (index: number) => void;
+}) {
   const [divingTo, setDivingTo] = useState<string | null>(null);
 
-  // Active section tracking via scroll position
-  useEffect(() => {
-    const handleScroll = () => {
-      const viewportCenter = window.innerHeight / 3;
-      const sections = document.querySelectorAll<HTMLElement>("section[id]");
-      let current = "hero";
-
-      sections.forEach((sec) => {
-        const rect = sec.getBoundingClientRect();
-        if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
-          current = sec.id;
-        }
-      });
-
-      setActiveId(current);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const activeId = DESTINATIONS[activeIndex]?.id || "hero";
 
   const autoDive = (id: string) => {
     setDivingTo(id);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const idx = DESTINATIONS.findIndex((d) => d.id === id);
+    if (idx !== -1 && onSelectSection) {
+      onSelectSection(idx);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
     setTimeout(() => setDivingTo(null), 1200);
   };
 
