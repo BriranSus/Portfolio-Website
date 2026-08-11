@@ -24,11 +24,7 @@ export function SectionNav({
 }: SectionNavProps) {
   return (
     <nav
-      className="fixed right-6 top-1/2 z-50 flex flex-col items-end gap-3 pointer-events-auto select-none transition-transform duration-75"
-      style={{
-        transform: scale !== 1 ? `translateY(-50%) scale(${scale})` : "translateY(-50%)",
-        transformOrigin: "center right",
-      }}
+      className="fixed lg:absolute right-6 lg:right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col items-end gap-3 pointer-events-auto select-none"
       aria-label="Section Navigation"
     >
       {sections.map((section, idx) => {
@@ -42,11 +38,10 @@ export function SectionNav({
           >
             {/* Tooltip Label on Hover */}
             <span
-              className={`font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase transition-all duration-300 pointer-events-none px-2 py-0.5 rounded bg-[#000c1a]/80 backdrop-blur-md border border-white/10 ${
-                isActive
+              className={`font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase transition-all duration-300 pointer-events-none px-2 py-0.5 rounded bg-[#000c1a]/80 backdrop-blur-md border border-white/10 ${isActive
                   ? "opacity-100 translate-x-0 text-[#00f5c4] border-[#00f5c4]/40"
                   : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-white/60"
-              }`}
+                }`}
             >
               {section.label}
             </span>
@@ -54,11 +49,10 @@ export function SectionNav({
             {/* Indicator Dot / Pill */}
             <div className="relative flex items-center justify-center w-5 h-5">
               <span
-                className={`block rounded-full transition-all duration-500 ${
-                  isActive
+                className={`block rounded-full transition-all duration-500 ${isActive
                     ? "w-3 h-3 bg-[#00f5c4] shadow-[0_0_12px_rgba(0,245,196,0.8)] scale-110"
                     : "w-1.5 h-1.5 bg-white/30 group-hover:bg-white/70 group-hover:scale-125"
-                }`}
+                  }`}
               />
               {isActive && (
                 <span className="absolute inset-0 rounded-full border border-[#00f5c4] animate-ping opacity-40" />

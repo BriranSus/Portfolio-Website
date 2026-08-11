@@ -127,7 +127,7 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
 
     isAnimatingRef.current = true;
     const currentIndex = activeIndexRef.current;
-    
+
     // Immediately update active index state for instant indicator & background sync
     setActiveIndex(nextIndex);
     activeIndexRef.current = nextIndex;
@@ -268,12 +268,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
   // Render Desktop Layout (> 768px): Auto-Scaled 1920x1080 Fixed Virtual Canvas
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-transparent z-10 select-none">
-      {/* Full-width Top Navbar spanning 100% screen width with inner content scaled proportionally */}
-      <Nav ready={ready} activeIndex={activeIndex} onSelectSection={handleSelectSection} scale={scale} />
-
-      {/* Fixed Right Side Section Indicator dots scaled proportionally */}
-      <SectionNav activeIndex={activeIndex} onSelectSection={handleSelectSection} sections={SECTIONS} scale={scale} />
-
       {/* Full screen backdrop gradient covering 100vw x 100vh with no side gaps */}
       <div
         ref={bgOverlayRef}
@@ -283,23 +277,29 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
         }}
       />
 
-      {/* 1920x1080 Auto-Scaled Virtual Canvas Container */}
+      {/* 1600x900 Auto-Scaled Virtual Canvas Container */}
       <div
         ref={containerRef}
         className="relative overflow-hidden bg-transparent shadow-2xl transition-transform duration-75"
         style={{
-          width: 1920,
-          height: 1080,
+          width: 1600,
+          height: 900,
           transform: `scale(${scale})`,
           transformOrigin: "center center",
           flexShrink: 0,
         }}
       >
-        {/* 1920x1080 Section Slides */}
+        {/* Full-width Top Navbar inside 1600x900 Virtual Canvas */}
+        <Nav ready={ready} activeIndex={activeIndex} onSelectSection={handleSelectSection} />
+
+        {/* Fixed Right Side Section Indicator dots inside 1600x900 Virtual Canvas */}
+        <SectionNav activeIndex={activeIndex} onSelectSection={handleSelectSection} sections={SECTIONS} />
+
+        {/* 1600x900 Section Slides */}
         {React.Children.map(children, (child, idx) => (
           <div
             key={idx}
-            className="fullpage-section absolute inset-0 w-[1920px] h-[1080px] pt-16 flex flex-col justify-center items-center overflow-hidden"
+            className="fullpage-section absolute inset-0 w-[1600px] h-[900px] pt-16 flex flex-col justify-center items-center overflow-hidden"
           >
             {child}
           </div>

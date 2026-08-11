@@ -45,7 +45,7 @@ export function Nav({
 
   return (
     <header
-      className="fixed top-0 inset-x-0 w-full z-50 pointer-events-auto select-none"
+      className="fixed lg:absolute top-0 inset-x-0 w-full z-50 pointer-events-auto select-none"
       style={{
         transform: ready ? "translateY(0)" : "translateY(-100%)",
         transition: "transform .8s cubic-bezier(0.16,1,0.3,1) .2s",
@@ -54,15 +54,9 @@ export function Nav({
       {/* Full-width screen background strip spanning 100% width */}
       {/* <div className="absolute inset-0 w-full h-full bg-[#000c1a]/90 backdrop-blur-xl border-b border-[#00f5c4]/30 shadow-[0_4px_25px_rgba(0,245,196,0.15)] pointer-events-none" /> */}
 
-      {/* Auto-scaled Holographic Header Bar & Card Rectangles */}
-      <div
-        className="relative z-10 w-full max-w-[1920px] mx-auto px-6 md:px-12 py-3.5 flex items-center justify-between transition-transform duration-75"
-        style={{
-          transform: scale !== 1 ? `scale(${scale})` : "none",
-          transformOrigin: "top center",
-        }}
-      >
-        
+      {/* Holographic Header Bar & Card Rectangles */}
+      <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 py-3.5 flex items-center justify-between">
+
         {/* Left: Cab & Auto-Dive System Status */}
         <button
           onClick={() => autoDive("hero")}
@@ -89,11 +83,10 @@ export function Nav({
               <button
                 key={dest.id}
                 onClick={() => autoDive(dest.id)}
-                className={`relative px-3.5 py-1.5 rounded-full font-['DM_Mono'] text-[11px] tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer ${
-                  isActive
+                className={`relative px-3.5 py-1.5 rounded-full font-['DM_Mono'] text-[11px] tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer ${isActive
                     ? "bg-[#00f5c4]/20 border border-[#00f5c4] text-[#00f5c4] shadow-[0_0_15px_rgba(0,245,196,0.35)] font-bold scale-105"
                     : "text-white/60 hover:text-white hover:bg-white/5 border border-transparent"
-                }`}
+                  }`}
               >
                 {isActive && (
                   <span className="w-1.5 h-1.5 rounded-full bg-[#00f5c4] animate-ping" />
@@ -124,11 +117,10 @@ export function Nav({
             <button
               key={dest.id}
               onClick={() => autoDive(dest.id)}
-              className={`flex-shrink-0 px-3 py-1 rounded-full font-['DM_Mono'] text-[10px] tracking-wider uppercase transition-all cursor-pointer ${
-                isActive
+              className={`flex-shrink-0 px-3 py-1 rounded-full font-['DM_Mono'] text-[10px] tracking-wider uppercase transition-all cursor-pointer ${isActive
                   ? "bg-[#00f5c4]/20 border border-[#00f5c4] text-[#00f5c4] font-bold"
                   : "bg-white/5 border border-white/10 text-white/60"
-              }`}
+                }`}
             >
               {dest.code} {dest.label}
             </button>

@@ -29,7 +29,7 @@ export function Hero({
   };
 
   return (
-    <section id="hero" className="relative w-full h-full flex flex-col justify-between px-6 md:px-16 py-8 md:py-12 max-w-[1920px] mx-auto overflow-hidden">
+    <section id="hero" className="relative w-full h-full flex flex-col justify-between px-6 md:px-16 py-8 md:py-12 max-w-[1600px] mx-auto overflow-hidden">
       <div className="section-content w-full flex-1 flex flex-col justify-between relative z-10 mx-auto my-auto">
         
         {/* Main Grid: Left Name & Bio, Right Holographic Profile Photo */}

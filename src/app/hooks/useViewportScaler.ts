@@ -7,8 +7,8 @@ export interface ViewportScalerState {
   viewportHeight: number;
 }
 
-const DESKTOP_BASE_WIDTH = 1920;
-const DESKTOP_BASE_HEIGHT = 1080;
+const DESKTOP_BASE_WIDTH = 1600;
+const DESKTOP_BASE_HEIGHT = 900;
 const MOBILE_BREAKPOINT = 768;
 
 export function useViewportScaler(): ViewportScalerState {
