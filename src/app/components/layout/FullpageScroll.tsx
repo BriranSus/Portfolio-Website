@@ -19,7 +19,7 @@ interface FullpageScrollProps {
 const SECTIONS = [
   { id: "hero", label: "01 — HERO" },
   { id: "about", label: "02 — ABOUT" },
-  { id: "services", label: "03 — SERVICES" },
+  { id: "experience", label: "03 — EXPERIENCE" },
   { id: "projects", label: "04 — PROJECTS" },
   { id: "stack", label: "05 — STACK" },
   { id: "contact", label: "06 — CONTACT" },
@@ -143,10 +143,10 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     // Background gradient shift effect across full screen backdrop
     const bgGrads = [
       "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 70% 50%, rgba(140, 0, 255, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 70% 50%, rgba(183, 95, 255, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 30% 60%, rgba(255, 45, 107, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 50% 50%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 80% 40%, rgba(140, 0, 255, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 80% 40%, rgba(183, 95, 255, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 40% 70%, rgba(255, 45, 107, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
     ];
 
@@ -229,7 +229,7 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
 
   const handleSelectSection = (targetIdx: number) => {
     if (isMobile) {
-      const sectionIds = ["hero", "about", "services", "projects", "stack", "contact"];
+      const sectionIds = ["hero", "about", "experience", "projects", "stack", "contact"];
       const targetId = sectionIds[targetIdx];
       if (targetId) {
         document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });

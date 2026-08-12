@@ -12,16 +12,16 @@ export function About() {
               className="font-['Archivo_Black'] text-5xl md:text-8xl leading-none select-none mb-6"
               style={{
                 color: "transparent",
-                WebkitTextStroke: "1px rgba(0,245,196,0.15)",
+                WebkitTextStroke: "2px #00f5c4",
               }}
             >
-              WHO
+              MY ROLE
             </div>
             <div className="flex flex-col gap-3">
               {[
-                { l: "Full Stack Developer", c: "#00f5c4" },
-                { l: "CS Student", c: "#8c00ff" },
-                { l: "Problem Solver", c: "#ff2d6b" },
+                { l: "Full Stack Developer", c: "#ff2d6b" },
+                { l: "CS Student", c: "#b75fff" },
+                { l: "Machine Learning Engineer", c: "#00f5c4" },
               ].map(({ l, c }) => (
                 <div
                   key={l}
@@ -40,23 +40,23 @@ export function About() {
           {/* Right Text Content */}
           <div className="section-content py-4 md:py-6">
             <p className="font-['DM_Mono'] text-sm md:text-lg leading-relaxed text-white/70 mb-8">
-              I{"'"}m a <span className="text-[#edeae1] font-semibold">Computer Science Student</span> passionate about Full-Stack Web Development and Artificial Intelligence. With hands-on experience using React.js for the frontend and Laravel API for the backend, I enjoy turning ideas into <span className="text-[#00f5c4] font-semibold">functional, user-friendly web applications.</span>
+              I{"'"}m a <span className="text-[#edeae1] font-semibold">Computer Science Student minoring in Intelligent Systems</span>, passionate about Full-Stack Web Engineering and Artificial Intelligence. With hands-on experience using React.js, Laravel API, and Python, I enjoy turning complex data and ideas into <span className="text-[#00f5c4] font-semibold">functional and user-friendly applications.</span>
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
               {[
-                "Problem decomposition",
-                "System architecture",
-                "Database design",
-                "API contracts",
-                "Component systems",
-                "Performance profiling",
+                "Problem Solving",
+                "System Design",
+                "Database Management",
+                "RESTful API Development",
+                "Frontend Engineering",
+                "AI Application Development",
               ].map((item, i) => (
                 <div
                   key={item}
                   className="stagger-item flex items-center gap-3.5 p-4 rounded-xl border border-white/5 bg-white/[0.02]"
                 >
-                  <span className="font-['DM_Mono'] text-sm font-bold" style={{ color: ["#00f5c4", "#8c00ff", "#ff2d6b"][i % 3] }}>
+                  <span className="font-['DM_Mono'] text-sm font-bold" style={{ color: ["#00f5c4", "#b75fff", "#ff2d6b"][i % 3] }}>
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="font-['DM_Mono'] text-xs md:text-sm text-white/80">{item}</span>

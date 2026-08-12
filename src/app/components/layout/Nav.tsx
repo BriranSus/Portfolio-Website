@@ -11,7 +11,7 @@ export interface NavDestination {
 const DESTINATIONS: NavDestination[] = [
   { id: "hero", code: "01", label: "HERO" },
   { id: "about", code: "02", label: "ABOUT" },
-  { id: "services", code: "03", label: "SERVICES" },
+  { id: "experience", code: "03", label: "EXPERIENCE" },
   { id: "projects", code: "04", label: "PROJECTS" },
   { id: "stack", code: "05", label: "STACK" },
   { id: "contact", code: "06", label: "CONTACT" },

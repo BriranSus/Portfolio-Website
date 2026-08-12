@@ -37,7 +37,7 @@ export function StackSection() {
                     i % 3 === 0
                       ? "rgba(0,245,196,0.6)"
                       : i % 3 === 1
-                      ? "rgba(140,0,255,0.5)"
+                      ? "rgba(183,95,255,0.5)"
                       : "rgba(237,234,225,0.25)",
                 }}
               >
@@ -54,7 +54,7 @@ export function StackSection() {
               05 — STACK
             </div>
             <h2 className="font-['Archivo_Black'] text-4xl sm:text-6xl md:text-7xl text-[#edeae1] leading-none">
-              TOOLS<span className="text-[#8c00ff]">.</span>
+              TOOLS<span className="text-[#b75fff]">.</span>
             </h2>
           </div>
 

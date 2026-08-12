@@ -16,7 +16,7 @@ export function Hero({
     const idMap: Record<string, number> = {
       hero: 0,
       about: 1,
-      services: 2,
+      experience: 2,
       projects: 3,
       stack: 4,
       contact: 5,
@@ -49,7 +49,7 @@ export function Hero({
             >
               <span className="w-2.5 h-2.5 rounded-full bg-[#00f5c4] animate-ping" />
               <span className="font-['DM_Mono'] text-xs tracking-[0.25em] text-[#00f5c4] uppercase font-bold">
-                ◈ FULLSTACK DEVELOPER
+                ◈ FULLSTACK DEVELOPER & AI Enthusiast
               </span>
             </div>
 

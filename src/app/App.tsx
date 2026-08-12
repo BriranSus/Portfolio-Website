@@ -5,7 +5,7 @@ import { Preloader } from "./components/common/Preloader";
 import { FullpageScroll } from "./components/layout/FullpageScroll";
 import { Hero } from "./components/sections/Hero";
 import { About } from "./components/sections/About";
-import { Services } from "./components/sections/Services";
+import { ExperienceSection } from "./components/sections/ExperienceSection";
 import { ProjectsSection } from "./components/sections/ProjectsSection";
 import { StackSection } from "./components/sections/StackSection";
 import { Contact } from "./components/sections/Contact";
@@ -31,7 +31,7 @@ export default function App() {
         >
           <Hero ready={ready} onSelectSection={(idx) => setTargetSection(idx)} />
           <About />
-          <Services />
+          <ExperienceSection />
           <ProjectsSection />
           <StackSection />
           <Contact />
