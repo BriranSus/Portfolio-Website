@@ -8,24 +8,12 @@ export interface ProjectItem {
   year: string;
   desc: string;
   tags: string[];
-  img: string;
+  img: any;
   status: string;
+  liveUrl: string;
 }
 
 export const PROJECTS: ProjectItem[] = [
-  // {
-  //   id: 0,
-  //   num: "01",
-  //   title: "CENTRAL PURCHASE DATA SYSTEM",
-  //   subtitle: "Material Management Dashboard",
-  //   accent: "#ff2d6b",
-  //   type: "Full Stack",
-  //   year: "2026",
-  //   desc: "Full-stack task management with Kanban boards, real-time collaboration, and analytics.",
-  //   tags: ["React", "TypeScript", "Laravel API", "PostgreSQL"],
-  //   img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&h=700&fit=crop&auto=format",
-  //   status: "IN PROGRESS"
-  // },
   {
     id: 0,
     num: "01",
@@ -34,35 +22,38 @@ export const PROJECTS: ProjectItem[] = [
     accent: "#b75fff",
     type: "Frontend",
     year: "2025",
-    desc: "Scalable store with Stripe payments, real-time inventory, and full admin analytics panel.",
-    tags: ["React", "Express", "Redis", "PostgreSQL"],
-    img: "https://images.unsplash.com/photo-1757301714935-c8127a21abc6?w=900&h=700&fit=crop&auto=format",
-    status: "COMPLETED"
+    desc: "TranscriptX focuses on two main features, which are automatic document summarization and audio transcription. By integrating with AI models, TranscriptX delivers accurate, fast, and context-aware outputs, helping users efficiently process large volumes of information.",
+    tags: ["React", "Typescript", "TailwindCSS"],
+    img: "/projects/Transcriptx.webp",
+    status: "COMPLETED",
+    liveUrl: "https://github.com/BriranSus/TranscriptX-FE"
   },
   {
     id: 1,
     num: "02",
-    title: "DEVPORTAL",
-    subtitle: "API Management Tool",
-    accent: "#ff2d6b",
-    type: "Backend",
-    year: "2023",
-    desc: "Developer portal for API docs, interactive testing, rate limiting, and key management.",
-    tags: ["Node.js", "TypeScript", "Docker", "REST API"],
-    img: "https://images.unsplash.com/photo-1733412505442-36cfa59a4240?w=900&h=700&fit=crop&auto=format",
-    status: "COMPLETED"
+    title: "BRAIN-TUMOR-NET",
+    subtitle: "Brain Tumor Detection Web Application",
+    accent: "#00f5c4",
+    type: "Frontend + Machine Learning Engineer",
+    year: "2025",
+    desc: "Brain Tumor Net is a web-based application that is integrated with Artificial Intelligence to assist in the detection of brain tumors from medical imaging data. The system leverage deep learning model to analyze MRI scans, helping patients better understand their brain condition.",
+    tags: ["React", "TypeScript", "Python", "TailwindCSS"],
+    img: "/projects/braintumornet.jpeg",
+    status: "COMPLETED",
+    liveUrl: "https://github.com/BriranSus/Brain-Tumor-Net-FE",
   },
   {
     id: 2,
     num: "03",
-    title: "HRSYNC",
-    subtitle: "HR Management System",
-    accent: "#00f5c4",
-    type: "Full Stack",
+    title: "HYDROSENSE",
+    subtitle: "Potable Water Detection Web Application",
+    accent: "#b75fff",
+    type: "Frontend",
     year: "2024",
-    desc: "Enterprise HR with automated payroll, attendance tracking, and performance reviews.",
-    tags: ["React", "PostgreSQL", "Prisma", "JWT"],
-    img: "https://images.unsplash.com/photo-1763718528755-4bca23f82ac3?w=900&h=700&fit=crop&auto=format",
-    status: "COMPLETED"
+    desc: "HydroSense is an AI-Integrated website to predict whether water is potable (drinkable) or not.",
+    tags: ["React", "TypeScript", "TailwindCSS"],
+    img: "/projects/hydrosense.webp",
+    status: "COMPLETED",
+    liveUrl: "https://github.com/BriranSus/HydroSense-FE",
   },
 ];
