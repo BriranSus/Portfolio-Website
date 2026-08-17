@@ -14,7 +14,8 @@ const DESTINATIONS: NavDestination[] = [
   { id: "experience", code: "03", label: "EXPERIENCE" },
   { id: "projects", code: "04", label: "PROJECTS" },
   { id: "stack", code: "05", label: "STACK" },
-  { id: "contact", code: "06", label: "CONTACT" },
+  { id: "certificates", code: "06", label: "CERTS" },
+  { id: "contact", code: "07", label: "CONTACT" },
 ];
 
 export function Nav({
@@ -51,13 +52,7 @@ export function Nav({
         transition: "transform .8s cubic-bezier(0.16,1,0.3,1) .2s",
       }}
     >
-      {/* Full-width screen background strip spanning 100% width */}
-      {/* <div className="absolute inset-0 w-full h-full bg-[#000c1a]/90 backdrop-blur-xl border-b border-[#00f5c4]/30 shadow-[0_4px_25px_rgba(0,245,196,0.15)] pointer-events-none" /> */}
-
-      {/* Holographic Header Bar & Card Rectangles */}
       <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 py-3.5 flex items-center justify-between">
-
-        {/* Left: Cab & Auto-Dive System Status */}
         <button
           onClick={() => autoDive("hero")}
           className="flex items-center gap-3 group cursor-pointer text-left"
@@ -75,7 +70,6 @@ export function Nav({
           </div>
         </button>
 
-        {/* Center: Holographic Destination Buttons */}
         <div className="hidden lg:flex items-center gap-2 bg-[#000611]/80 border border-[#00f5c4]/20 p-1.5 rounded-full shadow-inner">
           {DESTINATIONS.map((dest) => {
             const isActive = activeId === dest.id;
@@ -97,7 +91,6 @@ export function Nav({
           })}
         </div>
 
-        {/* Right: CTA Hire Me Button */}
         <div className="flex items-center gap-4">
           <MagBtn
             onClick={() => autoDive("contact")}
@@ -106,10 +99,8 @@ export function Nav({
             HIRE ME
           </MagBtn>
         </div>
-
       </div>
 
-      {/* Mobile Holographic Destination Bar (Medium & Small Screens) */}
       <div className="flex lg:hidden overflow-x-auto gap-2 px-4 py-2 bg-[#000a16]/95 border-b border-[#00f5c4]/20 no-scrollbar">
         {DESTINATIONS.map((dest) => {
           const isActive = activeId === dest.id;

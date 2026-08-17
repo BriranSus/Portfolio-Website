@@ -8,6 +8,7 @@ import { About } from "./components/sections/About";
 import { ExperienceSection } from "./components/sections/ExperienceSection";
 import { ProjectsSection } from "./components/sections/ProjectsSection";
 import { StackSection } from "./components/sections/StackSection";
+import { CertificatesSection } from "./components/sections/CertificatesSection";
 import { Contact } from "./components/sections/Contact";
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
           <ExperienceSection />
           <ProjectsSection />
           <StackSection />
+          <CertificatesSection />
           <Contact />
         </FullpageScroll>
       </div>

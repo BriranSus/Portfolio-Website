@@ -49,14 +49,12 @@ export function PageButton() {
         const isActive = activeSection === item.id;
         return (
           <div key={item.id} className="relative flex items-center group">
-            {/* Tooltip on hover for inactive buttons */}
             {!isActive && (
               <span className="absolute right-full mr-3 px-2.5 py-1 rounded bg-[#000c1a]/90 border border-[#00f5c4]/30 text-[#edeae1] font-['DM_Mono'] text-[10px] tracking-[0.15em] uppercase whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none shadow-lg backdrop-blur-md">
                 {item.num} — {item.label}
               </span>
             )}
 
-            {/* Stylized Navigation Button */}
             <button
               onClick={() => scrollTo(item.id)}
               className={`transition-all duration-500 rounded-full flex items-center justify-center font-['DM_Mono'] cursor-pointer ${

@@ -1,4 +1,3 @@
-// Sediment — tiny suspended particles drifting in current
 export const SEDIMENT_VERT = `
   attribute float aSize;
   attribute float aPhase;

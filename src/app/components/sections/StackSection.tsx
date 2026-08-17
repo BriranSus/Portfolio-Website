@@ -21,7 +21,6 @@ export function StackSection() {
   return (
     <section id="stack" className="relative w-full h-full flex flex-col justify-center py-6 md:py-10 max-w-[1700px] mx-auto overflow-hidden">
       <div className="w-full my-auto">
-        {/* Ticker Top */}
         <div className="w-full py-3 border-y border-[#00f5c4]/10 bg-[#00f5c4]/[0.02] mb-8 overflow-hidden flex select-none">
           <motion.div
             className="flex gap-12 whitespace-nowrap flex-shrink-0"
@@ -48,17 +47,15 @@ export function StackSection() {
         </div>
 
         <div className="px-6 md:px-16 w-full">
-          {/* Section Header */}
           <div className="section-header pb-6 border-b border-[#00f5c4]/20 mb-8 md:mb-10">
             <div className="font-['DM_Mono'] text-xs md:text-sm tracking-[0.3em] uppercase mb-3 text-[#00f5c4]">
               05 — STACK
             </div>
             <h2 className="font-['Archivo_Black'] text-4xl sm:text-6xl md:text-7xl text-[#edeae1] leading-none">
-              TOOLS<span className="text-[#b75fff]">.</span>
+              TOOLS
             </h2>
           </div>
 
-          {/* Section Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 md:gap-6">
             {TECH.map(({ name, color, svg }) => (
               <div

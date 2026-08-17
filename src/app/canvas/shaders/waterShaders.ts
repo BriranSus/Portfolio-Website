@@ -1,4 +1,3 @@
-// Water surface — viewed from below, with caustic shimmer
 export const WATER_VERT = `
   uniform float uTime;
   varying vec2 vUv;
@@ -25,7 +24,6 @@ export const WATER_FRAG = `
     vec3 deep    = vec3(0.02, 0.14, 0.52);
     float t = smoothstep(-0.6, 0.6, vElev);
     vec3 col = mix(deep, shallow, t);
-    // caustic sparkle — subtle
     float cx = sin(vUv.x * 22.0 + uTime * 0.5) * sin(vUv.y * 18.0 - uTime * 0.4);
     float cy = sin((vUv.x + vUv.y) * 16.0 + uTime * 0.7) * 0.5;
     float caustic = clamp((cx + cy + 2.0) * 0.25, 0.0, 1.0);

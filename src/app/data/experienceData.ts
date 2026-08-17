@@ -28,7 +28,7 @@ export const EXPERIENCES: ExperienceItem[] = [
   },
   {
     id: "exp-2",
-    company: "Asah led by Dicoding Indonesia",
+    company: "Asah led by Dicoding Indonesia & Accenture",
     role: "Cohort React & Back-End with AI",
     period: "2025 — 2026",
     duration: "6 Months",

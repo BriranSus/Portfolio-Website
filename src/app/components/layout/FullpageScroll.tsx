@@ -22,7 +22,8 @@ const SECTIONS = [
   { id: "experience", label: "03 — EXPERIENCE" },
   { id: "projects", label: "04 — PROJECTS" },
   { id: "stack", label: "05 — STACK" },
-  { id: "contact", label: "06 — CONTACT" },
+  { id: "certificates", label: "06 — CERTIFICATES" },
+  { id: "contact", label: "07 — CONTACT" },
 ];
 
 export function FullpageScroll({ children, onSectionChange, targetIndex, ready = false }: FullpageScrollProps) {
@@ -41,7 +42,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     () => {
       if (!containerRef.current || isMobile) return;
 
-      // Set initial transparent radial gradient background for Hero section across full screen
       if (bgOverlayRef.current) {
         gsap.set(bgOverlayRef.current, {
           background: "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.7) 70%)",
@@ -50,7 +50,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
 
       const sectionElements = containerRef.current.querySelectorAll<HTMLElement>(".fullpage-section");
 
-      // Set initial positions: section 0 is visible, all others are hidden below/above
       sectionElements.forEach((sec, idx) => {
         if (idx === 0) {
           gsap.set(sec, {
@@ -71,7 +70,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
         }
       });
 
-      // Create Observer for smooth wheel, touch, and pointer events on desktop
       const observer = Observer.create({
         target: window,
         type: "wheel,touch,pointer",
@@ -90,7 +88,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
         },
       });
 
-      // Key navigation (ArrowDown, ArrowUp, PageDown, PageUp)
       const handleKeyDown = (e: KeyboardEvent) => {
         if (isAnimatingRef.current) return;
         if (e.key === "ArrowDown" || e.key === "PageDown") {
@@ -128,7 +125,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     isAnimatingRef.current = true;
     const currentIndex = activeIndexRef.current;
 
-    // Immediately update active index state for instant indicator & background sync
     setActiveIndex(nextIndex);
     activeIndexRef.current = nextIndex;
     if (onSectionChange) onSectionChange(nextIndex);
@@ -140,13 +136,13 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     const currentSec = sectionElements[currentIndex];
     const nextSec = sectionElements[nextIndex];
 
-    // Background gradient shift effect across full screen backdrop
     const bgGrads = [
       "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 70% 50%, rgba(183, 95, 255, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 30% 60%, rgba(255, 45, 107, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 50% 50%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 80% 40%, rgba(183, 95, 255, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+      "radial-gradient(ellipse at 35% 55%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
       "radial-gradient(ellipse at 40% 70%, rgba(255, 45, 107, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
     ];
 
@@ -158,7 +154,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
       });
     }
 
-    // Set initial position of next section
     gsap.set(nextSec, {
       display: "flex",
       opacity: 0,
@@ -176,7 +171,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
       },
     });
 
-    // 1. Parallax Out for current section
     tl.to(
       currentSec,
       {
@@ -189,7 +183,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
       0
     );
 
-    // 2. Entrance for next section
     tl.to(
       nextSec,
       {
@@ -202,7 +195,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
       0.15
     );
 
-    // 3. Section Title Entrance (Fade from Top)
     const titles = nextSec.querySelectorAll(".section-title, .section-header, h2");
     if (titles.length > 0) {
       tl.fromTo(
@@ -213,7 +205,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
       );
     }
 
-    // 4. Content / Cards Stagger Entrance (Fade from Bottom)
     const items = nextSec.querySelectorAll(
       ".section-content, .section-card, .stagger-item, p, .grid > div"
     );
@@ -229,7 +220,7 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
 
   const handleSelectSection = (targetIdx: number) => {
     if (isMobile) {
-      const sectionIds = ["hero", "about", "experience", "projects", "stack", "contact"];
+      const sectionIds = ["hero", "about", "experience", "projects", "stack", "certificates", "contact"];
       const targetId = sectionIds[targetIdx];
       if (targetId) {
         document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
@@ -250,7 +241,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     }
   }, [targetIndex]);
 
-  // Render Mobile Layout (<= 768px): Normal Vertical Scroll
   if (isMobile) {
     return (
       <div className="w-full min-h-screen overflow-y-auto bg-transparent py-16 px-4 flex flex-col gap-20 relative z-10">
@@ -265,10 +255,8 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     );
   }
 
-  // Render Desktop Layout (> 768px): Auto-Scaled 1920x1080 Fixed Virtual Canvas
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-transparent z-10 select-none">
-      {/* Full screen backdrop gradient covering 100vw x 100vh with no side gaps */}
       <div
         ref={bgOverlayRef}
         className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-1000"
@@ -277,7 +265,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
         }}
       />
 
-      {/* 1600x900 Auto-Scaled Virtual Canvas Container */}
       <div
         ref={containerRef}
         className="relative overflow-hidden bg-transparent shadow-2xl transition-transform duration-75"
@@ -289,13 +276,10 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
           flexShrink: 0,
         }}
       >
-        {/* Full-width Top Navbar inside 1600x900 Virtual Canvas */}
         <Nav ready={ready} activeIndex={activeIndex} onSelectSection={handleSelectSection} />
 
-        {/* Fixed Right Side Section Indicator dots inside 1600x900 Virtual Canvas */}
         <SectionNav activeIndex={activeIndex} onSelectSection={handleSelectSection} sections={SECTIONS} />
 
-        {/* 1600x900 Section Slides */}
         {React.Children.map(children, (child, idx) => (
           <div
             key={idx}

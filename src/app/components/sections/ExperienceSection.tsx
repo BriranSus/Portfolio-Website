@@ -13,7 +13,7 @@ export function ExperienceSection() {
       const firstCard = scrollContainerRef.current.children[0] as HTMLElement;
       if (firstCard) {
         const cardWidth = firstCard.offsetWidth;
-        const gap = 24; // gap-6 (24px)
+        const gap = 24;
         scrollContainerRef.current.scrollTo({
           left: newIdx * (cardWidth + gap),
           behavior: "smooth",
@@ -40,14 +40,12 @@ export function ExperienceSection() {
     }
   };
 
-  // Convert vertical scroll on the cards to horizontal scroll inside slider
   const handleWheel = (e: React.WheelEvent) => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
       const isAtLeftLimit = container.scrollLeft <= 5;
       const isAtRightLimit = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5;
 
-      // Only hijack wheel if scrolling horizontally within bounds
       if ((e.deltaY > 0 && !isAtRightLimit) || (e.deltaY < 0 && !isAtLeftLimit)) {
         e.stopPropagation();
         container.scrollBy({ left: e.deltaY > 0 ? 350 : -350, behavior: "smooth" });
@@ -58,9 +56,7 @@ export function ExperienceSection() {
   return (
     <section id="experience" className="relative w-full h-full flex flex-col justify-center px-6 md:px-16 max-w-[1700px] mx-auto overflow-hidden">
       <div className="w-full my-auto">
-        
-        {/* Section Header with Navigation Controls */}
-        <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[#00f5c4]/20 mb-8 md:mb-10">
+        <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[#00f5c4]/20 mb-8 md:mb-10 pr-12 md:pr-16">
           <div>
             <div className="font-['DM_Mono'] text-xs md:text-sm tracking-[0.3em] uppercase mb-3 text-[#00f5c4]">
               03 — TECHNICAL EXPERIENCE
@@ -70,9 +66,8 @@ export function ExperienceSection() {
             </h2>
           </div>
 
-          {/* Right Header Navigation: Slider Index Counter & Left/Right Arrows */}
           <div className="flex items-center gap-4">
-            <div className="text-xs md:text-sm font-['DM_Mono'] text-white/60 bg-[#000c1a]/80 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+            <div className="text-xs md:text-sm font-['DM_Mono'] text-white/60 bg-[#000c1a]/80 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 select-none pointer-events-none">
               [ 0{activeIndex + 1} / 0{EXPERIENCES.length} ]
             </div>
 
@@ -106,7 +101,6 @@ export function ExperienceSection() {
           </div>
         </div>
 
-        {/* Horizontal Snapping Scroll Track (Most-Left to Most-Right Bounded Slider) */}
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
@@ -125,13 +119,11 @@ export function ExperienceSection() {
                     : "border-white/10 hover:border-white/30 opacity-85 hover:opacity-100"
                 }`}
               >
-                {/* Soft Ambient Glow */}
                 <div
                   className="absolute top-0 right-0 w-48 h-48 pointer-events-none rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"
                   style={{ background: exp.accent }}
                 />
 
-                {/* Card Header: Company, Role & Duration */}
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
                     <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/90 font-['DM_Mono'] text-xs">
@@ -151,12 +143,10 @@ export function ExperienceSection() {
                     </span>
                   </div>
 
-                  {/* Role Title */}
                   <h3 className="font-['Archivo_Black'] text-xl sm:text-2xl md:text-3xl text-[#edeae1] mb-2 leading-tight">
                     {exp.role}
                   </h3>
 
-                  {/* Meta details: Period & Location */}
                   <div className="flex items-center gap-4 text-white/50 font-['DM_Mono'] text-xs mb-6">
                     <span className="flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5 text-white/40" />
@@ -168,7 +158,6 @@ export function ExperienceSection() {
                     </span>
                   </div>
 
-                  {/* Contributions List */}
                   <div className="space-y-2.5 mb-6">
                     {exp.contributions.map((item, cIdx) => (
                       <div key={cIdx} className="stagger-item flex items-start gap-2.5">
@@ -181,7 +170,6 @@ export function ExperienceSection() {
                   </div>
                 </div>
 
-                {/* Technologies Used Footer */}
                 <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
                   {exp.technologies.map((tech) => (
                     <span
@@ -197,7 +185,6 @@ export function ExperienceSection() {
           })}
         </div>
 
-        {/* Bottom Horizontal Slider Progress Bar Indicator */}
         <div className="w-full bg-white/5 h-1.5 rounded-full mt-6 overflow-hidden border border-white/10 relative">
           <div
             className="h-full bg-[#00f5c4] transition-all duration-500 shadow-[0_0_12px_rgba(0,245,196,0.8)]"
@@ -206,7 +193,6 @@ export function ExperienceSection() {
             }}
           />
         </div>
-
       </div>
     </section>
   );

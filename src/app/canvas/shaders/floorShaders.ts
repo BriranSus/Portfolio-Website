@@ -1,4 +1,3 @@
-// Ocean floor — 3D terrain with highlands, lowlands, slope lighting & caustic shimmer
 export const FLOOR_VERT = `
   varying vec2 vUv;
   varying vec3 vNormal;

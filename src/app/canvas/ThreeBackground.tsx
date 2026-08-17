@@ -14,7 +14,7 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
   const scrollRef = useRef(0);
   const targetScrollRef = useRef(0);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
-  const scrollProgress = Math.min(1, Math.max(0, activeIndex / 5));
+  const scrollProgress = Math.min(1, Math.max(0, activeIndex / 6));
 
   useEffect(() => {
     targetScrollRef.current = scrollProgress;
@@ -36,21 +36,17 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
     let W = window.innerWidth,
       H = window.innerHeight;
 
-    /* ── Renderer ─────────────────────────────────────────────── */
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(W, H);
     renderer.setClearColor(0x0a2a6e, 1);
 
-    /* ── Scene ───────────────────────────────────────────────── */
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x0a2a6e, 0.007);
 
-    /* ── Camera ──────────────────────────────────────────────── */
     const camera = new THREE.PerspectiveCamera(70, W / H, 0.05, 500);
     camera.position.set(0, 4, 10);
 
-    /* ── Lights ────────────────────────────────────────────────── */
     scene.add(new THREE.AmbientLight(0x1e4f8a, 1.5));
     const sunPt = new THREE.DirectionalLight(0x40e0d0, 2.5);
     sunPt.position.set(10, 30, 15);
@@ -62,7 +58,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
     midPt.position.set(6, -6, 4);
     scene.add(midPt);
 
-    /* ── Water surface (seen from below) ─────────────────────── */
     const waterMat = new THREE.ShaderMaterial({
       vertexShader: WATER_VERT,
       fragmentShader: WATER_FRAG,
@@ -78,7 +73,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
     waterMesh.position.y = 8;
     scene.add(waterMesh);
 
-    /* ── Sediment particles ──────────────────────────────────── */
     const SED_COUNT = 50;
     const sedPos = new Float32Array(SED_COUNT * 3);
     const sedSizes = new Float32Array(SED_COUNT);
@@ -104,7 +98,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
     });
     scene.add(new THREE.Points(sedGeo, sedMat));
 
-    /* ── Rising bubbles ──────────────────────────────────────── */
     const BUB_COUNT = 5;
     const bubPos = new Float32Array(BUB_COUNT * 3);
     const bubSizes = new Float32Array(BUB_COUNT);
@@ -114,7 +107,7 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
       bubPos[i * 3] = (Math.random() - 0.5) * 26;
       bubPos[i * 3 + 1] = (Math.random() - 0.5) * 26 - 5;
       bubPos[i * 3 + 2] = (Math.random() - 0.5) * 16;
-      bubSizes[i] = 2 + Math.random() * 0.5; // Larger stylized sizes
+      bubSizes[i] = 2 + Math.random() * 0.5;
       bubPhases[i] = Math.random() * Math.PI * 2;
       bubSpeeds[i] = 0.45 + Math.random() * 1.0;
     }
@@ -133,7 +126,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
     });
     scene.add(new THREE.Points(bubGeo, bubMat));
 
-    /* ── Ocean floor terrain ─────────────────────────────────── */
     const floorMat = new THREE.ShaderMaterial({
       vertexShader: FLOOR_VERT,
       fragmentShader: FLOOR_FRAG,
@@ -155,7 +147,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
     floorMesh.position.y = -26;
     scene.add(floorMesh);
 
-    /* ── GLTF decorations — rocks, coral, kelp, fish ────────── */
     const rocksGroup = new THREE.Group();
     const coralGroup = new THREE.Group();
     const kelpGroup = new THREE.Group();
@@ -208,9 +199,8 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
           randCoral
         );
 
-        // Kelp — sway via onBeforeCompile, planted flush in floor patches with fixed seed
         const kelpTemplate = kelpGltf.scene;
-        kelpTemplate.traverse((child) => {
+        kelpTemplate.traverse((child: THREE.Object3D) => {
           const mesh = child as THREE.Mesh;
           if (mesh.isMesh) {
             const mat = (mesh.material as THREE.MeshStandardMaterial).clone();
@@ -250,7 +240,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
           }
         }
 
-        // Fish school orbiting far deep in the background horizon with fixed seed
         const fishModels = [fishGltf, goldfishGltf];
         for (let i = 0; i < 36; i++) {
           const modelGltf = fishModels[i % fishModels.length];
@@ -267,7 +256,7 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
           fishData.push({
             obj: fish,
             centerX: (randFish() - 0.5) * 200,
-            centerZ: -180 - randFish() * 140, // pushed way back to z = -180 -> -320
+            centerZ: -180 - randFish() * 140,
             baseY: -16 - randFish() * 22,
             radiusX: 20 + randFish() * 30,
             radiusZ: 12 + randFish() * 22,
@@ -280,13 +269,11 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
       }
     })();
 
-    /* ── Depth color targets ──────────────────────────────────── */
     const surfaceColor = new THREE.Color(0x0d3a9e);
     const deepColor = new THREE.Color(0x041640);
     const fogColor = new THREE.Color();
     const bgColor = new THREE.Color();
 
-    /* ── Resize ──────────────────────────────────────────────── */
     const onResize = () => {
       W = window.innerWidth;
       H = window.innerHeight;
@@ -296,7 +283,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
     };
     window.addEventListener("resize", onResize);
 
-    /* ── Animation loop ──────────────────────────────────────── */
     const clock = new THREE.Clock();
     let tAccum = 0;
     let frameId: number;
@@ -307,7 +293,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
       tAccum += delta;
       const t = tAccum;
       
-      // Smooth 60fps fluid camera depth lerp
       scrollRef.current += (targetScrollRef.current - scrollRef.current) * 0.05;
       const sc = scrollRef.current;
       const mx = mouseRef.current.x;
@@ -332,7 +317,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
       const bedrockColor = new THREE.Color(0x010816);
 
       if (sc > 0.55) {
-        // Smooth fade to 100% solid deep dark navy blue-black as camera descends into seabed
         const sedimentFactor = Math.min(1, (sc - 0.55) / 0.35);
         bgColor.lerpColors(surfaceColor, deepColor, scEased).lerp(bedrockColor, sedimentFactor);
         fogColor.lerpColors(surfaceColor, deepColor, scEased).lerp(bedrockColor, sedimentFactor);
@@ -346,7 +330,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
       renderer.setClearColor(bgColor, 1);
       (scene.fog as THREE.FogExp2).color.copy(fogColor);
 
-      // Descend camera deeper down to -32m directly into seabed floor bedrock at Contact
       const tgY = 4 - sc * 36;
       const tgZ = 10 - sc * 4;
       const tgX = (mx - 0.5) * -3.5;
@@ -354,7 +337,6 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
       camera.position.y += (tgY - camera.position.y) * 0.04;
       camera.position.z += (tgZ - camera.position.z) * 0.04;
 
-      // Look straight ahead level at the deep ocean horizon / subsea base
       camera.lookAt(camera.position.x * 0.3, camera.position.y, camera.position.z - 20);
 
       renderer.render(scene, camera);
@@ -382,13 +364,11 @@ export function ThreeBackground({ activeIndex = 0 }: { activeIndex?: number }) {
 
   return (
     <>
-      {/* 3D WebGL Ocean Canvas */}
       <canvas
         ref={canvasRef}
         className="fixed inset-0 w-full h-full"
         style={{ zIndex: 0, background: "#0a2a6e" }}
       />
-      {/* Animated Solid Navy-Black Overlay (Placed directly on top of 3D Canvas, below content & HUD) */}
       <div
         className="fixed inset-0 pointer-events-none bg-[#000611] transition-opacity duration-700 ease-out"
         style={{

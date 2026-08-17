@@ -11,7 +11,7 @@ export function ProjectsSection() {
     setActiveIndex(newIdx);
     if (scrollContainerRef.current) {
       const containerWidth = scrollContainerRef.current.clientWidth;
-      const gap = 32; // gap-8 (32px)
+      const gap = 32;
       scrollContainerRef.current.scrollTo({
         left: newIdx * (containerWidth + gap),
         behavior: "smooth",
@@ -34,7 +34,6 @@ export function ProjectsSection() {
     }
   };
 
-  // Convert vertical scroll on cards into horizontal scrolling inside projects slider
   const handleWheel = (e: React.WheelEvent) => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
@@ -50,20 +49,17 @@ export function ProjectsSection() {
 
   return (
     <section id="projects" className="relative w-full h-full flex flex-col justify-between px-6 md:px-16 py-6 md:py-10 max-w-[1700px] mx-auto overflow-hidden">
-      
-      {/* Top Header HUD Navigation */}
-      <div className="section-header w-full flex items-center justify-between z-20 relative mb-4">
+      <div className="section-header w-full flex items-center justify-between z-20 relative mb-4 pr-12 md:pr-16">
         <div className="flex items-center gap-4">
-          <div className="font-['DM_Mono'] text-xs md:text-sm tracking-[0.3em] uppercase text-[#00f5c4] flex items-center gap-2 bg-[#000c1a]/80 backdrop-blur-md px-4 py-2 rounded-xl border border-[#00f5c4]/30">
+          <div className="font-['DM_Mono'] text-xs md:text-sm tracking-[0.3em] uppercase text-[#00f5c4] flex items-center gap-2 bg-[#000c1a]/80 backdrop-blur-md px-4 py-2 rounded-xl border border-[#00f5c4]/30 select-none pointer-events-none">
             <Radio className="w-4 h-4 text-[#00f5c4] animate-pulse" />
             04 — PROJECTS GALLERY
           </div>
-          <div className="hidden sm:block text-xs md:text-sm font-['DM_Mono'] text-white/50 bg-[#000c1a]/80 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+          <div className="hidden sm:block text-xs md:text-sm font-['DM_Mono'] text-white/50 bg-[#000c1a]/80 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 select-none pointer-events-none">
             [ 0{activeIndex + 1} / 0{PROJECTS.length} ]
           </div>
         </div>
 
-        {/* Interactive Carousel & Arrow Navigation */}
         <div className="flex items-center gap-2 bg-[#000c1a]/90 backdrop-blur-md border border-[#00f5c4]/30 px-3.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(0,245,196,0.15)]">
           <button
             onClick={handlePrev}
@@ -104,7 +100,6 @@ export function ProjectsSection() {
         </div>
       </div>
 
-      {/* Horizontal Snapping Scroll Track (Original Full Size Card w-full min-w-full h-full) */}
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
@@ -117,7 +112,6 @@ export function ProjectsSection() {
             key={project.id}
             className="w-full min-w-full h-full flex-shrink-0 snap-start snap-always section-card rounded-2xl relative overflow-hidden border border-[#00f5c4]/30 bg-[#000c1a]/85 backdrop-blur-2xl flex flex-col justify-between p-6 md:p-10 shadow-[0_0_40px_rgba(0,12,26,0.9)] transition-all duration-500 hover:border-[#00f5c4]/60"
           >
-            {/* Background Image & Submarine Glass Overlay */}
             <div className="absolute inset-0 z-0">
               <img
                 src={project.img}
@@ -132,7 +126,6 @@ export function ProjectsSection() {
               />
             </div>
 
-            {/* Card Top Details */}
             <div className="relative z-10 flex items-center justify-between pb-4 border-b border-white/10">
               <div className="flex items-baseline gap-3">
                 <span
@@ -163,7 +156,6 @@ export function ProjectsSection() {
               </div>
             </div>
 
-            {/* Card Content & Description */}
             <div className="relative z-10 my-4 md:my-6">
               <h3 className="font-['Archivo_Black'] text-2xl sm:text-4xl md:text-5xl text-[#edeae1] mb-2 leading-tight">
                 {project.title}
@@ -175,7 +167,6 @@ export function ProjectsSection() {
                 {project.desc}
               </p>
 
-              {/* Tech Tags */}
               <div className="flex flex-wrap gap-2.5">
                 {project.tags.map((t) => (
                   <span
@@ -188,7 +179,6 @@ export function ProjectsSection() {
               </div>
             </div>
 
-            {/* Card Footer Actions */}
             <div className="relative z-10 flex items-center justify-between pt-4 border-t border-white/10">
               <div className="flex items-center gap-2 font-['DM_Mono'] text-xs md:text-sm text-white/40">
                 {project.status}
@@ -207,7 +197,6 @@ export function ProjectsSection() {
           </div>
         ))}
       </div>
-
     </section>
   );
 }

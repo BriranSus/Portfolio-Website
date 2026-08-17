@@ -8,7 +8,7 @@ export function Contact() {
       <div className="w-full my-auto">
         <div className="border-t border-[#00f5c4]/20 pt-8 md:pt-10">
           <div className="section-header font-['DM_Mono'] text-xs md:text-sm tracking-[0.3em] uppercase mb-6 md:mb-8 text-[#00f5c4]">
-            06 — CONTACT
+            07 — CONTACT
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 md:gap-16 items-end">
             <div className="section-header">

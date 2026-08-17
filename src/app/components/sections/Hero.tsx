@@ -19,7 +19,8 @@ export function Hero({
       experience: 2,
       projects: 3,
       stack: 4,
-      contact: 5,
+      certificates: 5,
+      contact: 6,
     };
     if (typeof idMap[id] === "number" && onSelectSection) {
       onSelectSection(idMap[id]);
@@ -31,14 +32,8 @@ export function Hero({
   return (
     <section id="hero" className="relative w-full h-full flex flex-col justify-between px-6 md:px-16 py-8 md:py-12 max-w-[1600px] mx-auto overflow-hidden">
       <div className="section-content w-full flex-1 flex flex-col justify-between relative z-10 mx-auto my-auto">
-        
-        {/* Main Grid: Left Name & Bio, Right Holographic Profile Photo */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center my-auto">
-          
-          {/* LEFT COLUMN: Name Typography & Intro */}
           <div className="lg:col-span-6 flex flex-col justify-center max-w-[680px] ml-auto w-full relative z-10">
-            
-            {/* Top Developer Badge */}
             <div
               className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#00f5c4]/10 border border-[#00f5c4]/30 w-fit mb-6 shadow-[0_0_20px_rgba(0,245,196,0.15)]"
               style={{
@@ -53,7 +48,6 @@ export function Hero({
               </span>
             </div>
 
-            {/* Name Headline */}
             <div style={{ position: "relative", zIndex: 2, marginBottom: "1.5rem" }}>
               <div style={{ overflow: "hidden", lineHeight: 0.9 }}>
                 <div className="font-['Archivo_Black'] text-4xl sm:text-6xl md:text-[88px] tracking-[-0.03em]" style={{ color: "#edeae1" }}>
@@ -82,7 +76,6 @@ export function Hero({
               </div>
             </div>
 
-            {/* CTAs & Quick Buttons */}
             <div
               className="flex items-center gap-4 mt-6 flex-wrap"
               style={{
@@ -106,7 +99,6 @@ export function Hero({
               </MagBtn>
             </div>
 
-            {/* Bottom Metrics Bar */}
             <div
               className="mt-16 pt-6 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl"
               style={{
@@ -127,10 +119,8 @@ export function Hero({
                 </div>
               ))}
             </div>
-
           </div>
 
-          {/* RIGHT COLUMN: Holographic Glass Profile Photo Card */}
           <div
             className="lg:col-span-6 flex justify-center lg:justify-center relative z-10 my-4 lg:my-0"
             style={{
@@ -140,14 +130,11 @@ export function Hero({
             }}
           >
             <div className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[480px] aspect-[4/5] rounded-2xl p-5 md:p-6 bg-[#000c1a]/70 backdrop-blur-2xl border border-[#00f5c4]/30 shadow-[0_0_40px_rgba(0,12,26,0.9)] group transition-all duration-500 hover:border-[#00f5c4]/70 hover:shadow-[0_0_35px_rgba(0,245,196,0.25)] flex flex-col justify-between overflow-hidden">
-              
-              {/* Corner Rivets */}
               <div className="absolute top-2.5 left-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
               <div className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
               <div className="absolute bottom-2.5 left-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
               <div className="absolute bottom-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-[#00f5c4]/50" />
 
-              {/* Top Photo Card Header */}
               <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-white/10 font-['DM_Mono'] text-[11px]">
                 <div className="flex items-center gap-1.5 text-[#00f5c4]">
                   <ShieldCheck className="w-4 h-4" />
@@ -156,7 +143,6 @@ export function Hero({
                 <span className="text-white/40 tracking-wider">INDONESIA</span>
               </div>
 
-              {/* Center Photo Display Container */}
               <div className="relative z-10 flex-1 my-3 rounded-xl overflow-hidden border border-white/10 bg-[#000611] flex items-center justify-center group-hover:border-[#00f5c4]/40 transition-colors">
                 {!imgError ? (
                   <img
@@ -179,11 +165,9 @@ export function Hero({
                   </div>
                 )}
 
-                {/* Subsea Scanline Beam Overlay */}
                 <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-[#00f5c4]/5 to-transparent animate-pulse" />
               </div>
 
-              {/* Bottom Photo Card Status Strip */}
               <div className="relative z-10 pt-2.5 border-t border-white/10 flex items-center justify-between font-['DM_Mono'] text-[11px]">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#00f5c4] animate-pulse shadow-[0_0_8px_#00f5c4]" />
@@ -191,12 +175,9 @@ export function Hero({
                 </div>
                 <Sparkles className="w-4 h-4 text-[#00f5c4]" />
               </div>
-
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );

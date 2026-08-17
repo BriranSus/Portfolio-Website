@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FLOOR_RX, getFloorHeight } from "../terrain/oceanTerrain";
 
 const gltfLoader = new GLTFLoader();
 
-export function loadGLTF(url: string) {
-  return new Promise<any>((resolve, reject) =>
+export function loadGLTF(url: string): Promise<GLTF> {
+  return new Promise<GLTF>((resolve, reject) =>
     gltfLoader.load(url, resolve, undefined, reject)
   );
 }
@@ -25,7 +25,7 @@ export function scatterStatic(
 
     const wrapper = new THREE.Group();
     wrapper.position.set(x, floorPt.y, floorPt.z);
-    wrapper.rotation.x = FLOOR_RX + Math.PI / 2; // align perpendicular to floor slope
+    wrapper.rotation.x = FLOOR_RX + Math.PI / 2;
 
     const inst = template.clone(true);
     const s = scaleRange[0] + rand() * (scaleRange[1] - scaleRange[0]);
