@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -22,13 +22,19 @@ const SECTIONS = [
   { id: "experience", label: "03 — EXPERIENCE" },
   { id: "projects", label: "04 — PROJECTS" },
   { id: "stack", label: "05 — STACK" },
-  { id: "certificates", label: "06 — CERTIFICATES" },
+  { id: "certificates", label: "06 — CERTS" },
   { id: "contact", label: "07 — CONTACT" },
 ];
 
-export function FullpageScroll({ children, onSectionChange, targetIndex, ready = false }: FullpageScrollProps) {
+export function FullpageScroll({
+  children,
+  onSectionChange,
+  targetIndex,
+  ready = false,
+}: FullpageScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const bgOverlayRef = useRef<HTMLDivElement>(null);
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const isAnimatingRef = useRef(false);
@@ -38,13 +44,62 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
   const { scale, isMobile } = useViewportScaler();
   const totalSections = React.Children.count(children);
 
+  // Background gradients array shared across mobile & desktop
+  const bgGrads = [
+    "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+    "radial-gradient(ellipse at 70% 50%, rgba(183, 95, 255, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+    "radial-gradient(ellipse at 30% 60%, rgba(255, 45, 107, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+    "radial-gradient(ellipse at 50% 50%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+    "radial-gradient(ellipse at 80% 40%, rgba(183, 95, 255, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+    "radial-gradient(ellipse at 35% 55%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+    "radial-gradient(ellipse at 40% 70%, rgba(255, 45, 107, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
+  ];
+
+  // IntersectionObserver for mobile snap scrolling
+  useEffect(() => {
+    if (!isMobile || !mobileContainerRef.current) return;
+
+    const sections = mobileContainerRef.current.querySelectorAll(".mobile-snap-section");
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idxStr = entry.target.getAttribute("data-section-index");
+            if (idxStr !== null) {
+              const idx = parseInt(idxStr, 10);
+              if (idx !== activeIndexRef.current) {
+                setActiveIndex(idx);
+                activeIndexRef.current = idx;
+                if (onSectionChange) onSectionChange(idx);
+
+                if (bgOverlayRef.current) {
+                  bgOverlayRef.current.style.background = bgGrads[idx % bgGrads.length];
+                }
+              }
+            }
+          }
+        });
+      },
+      {
+        root: mobileContainerRef.current,
+        threshold: 0.5,
+      }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+
+    return () => observer.disconnect();
+  }, [isMobile, totalSections]);
+
   const { contextSafe } = useGSAP(
     () => {
       if (!containerRef.current || isMobile) return;
 
       if (bgOverlayRef.current) {
         gsap.set(bgOverlayRef.current, {
-          background: "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.7) 70%)",
+          background: bgGrads[0],
         });
       }
 
@@ -136,16 +191,6 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     const currentSec = sectionElements[currentIndex];
     const nextSec = sectionElements[nextIndex];
 
-    const bgGrads = [
-      "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 70% 50%, rgba(183, 95, 255, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 30% 60%, rgba(255, 45, 107, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 50% 50%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 80% 40%, rgba(183, 95, 255, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 35% 55%, rgba(0, 245, 196, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
-      "radial-gradient(ellipse at 40% 70%, rgba(255, 45, 107, 0.09) 0%, rgba(2, 8, 23, 0.75) 70%)",
-    ];
-
     if (bgOverlayRef.current) {
       gsap.to(bgOverlayRef.current, {
         background: bgGrads[nextIndex % bgGrads.length],
@@ -220,10 +265,11 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
 
   const handleSelectSection = (targetIdx: number) => {
     if (isMobile) {
-      const sectionIds = ["hero", "about", "experience", "projects", "stack", "certificates", "contact"];
-      const targetId = sectionIds[targetIdx];
-      if (targetId) {
-        document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
+      const targetSec = mobileContainerRef.current?.querySelector(
+        `[data-section-index="${targetIdx}"]`
+      );
+      if (targetSec) {
+        targetSec.scrollIntoView({ behavior: "smooth" });
       }
       setActiveIndex(targetIdx);
       if (onSectionChange) onSectionChange(targetIdx);
@@ -241,27 +287,57 @@ export function FullpageScroll({ children, onSectionChange, targetIndex, ready =
     }
   }, [targetIndex]);
 
+  // Mobile Layout (<= 768px): Native Vertical Snap Scrolling
   if (isMobile) {
     return (
-      <div className="w-full min-h-screen overflow-y-auto bg-transparent py-16 px-4 flex flex-col gap-20 relative z-10">
+      <div className="fixed inset-0 w-full h-full overflow-hidden bg-transparent z-10 select-none">
+        {/* Full screen backdrop gradient covering 100vw x 100vh */}
+        <div
+          ref={bgOverlayRef}
+          className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-700"
+          style={{
+            background: bgGrads[activeIndex % bgGrads.length],
+          }}
+        />
+
+        {/* Mobile Top Navigation */}
         <Nav ready={ready} activeIndex={activeIndex} onSelectSection={handleSelectSection} />
-        <SectionNav activeIndex={activeIndex} onSelectSection={handleSelectSection} sections={SECTIONS} />
-        {React.Children.map(children, (child, idx) => (
-          <div key={idx} className="w-full flex flex-col items-center justify-center">
-            {child}
-          </div>
-        ))}
+
+        {/* Mobile Vertical Snap Scroll Container */}
+        <div
+          ref={mobileContainerRef}
+          className="w-full h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar relative z-10"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {React.Children.map(children, (child, idx) => (
+            <div
+              key={idx}
+              data-section-index={idx}
+              id={SECTIONS[idx]?.id}
+              className="mobile-snap-section w-full min-h-[100dvh] h-[100dvh] snap-start snap-always flex flex-col justify-center items-center relative overflow-hidden pt-3 pb-20 px-3 sm:px-6"
+            >
+              <div className="w-full h-full flex flex-col justify-center items-center overflow-y-auto no-scrollbar">
+                {child}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
+  // Desktop Layout (> 768px): Auto-Scaled 1600x900 Virtual Canvas with GSAP Observer
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-transparent z-10 select-none">
       <div
         ref={bgOverlayRef}
         className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-1000"
         style={{
-          background: "radial-gradient(ellipse at 50% 30%, rgba(0, 245, 196, 0.08) 0%, rgba(2, 8, 23, 0.75) 70%)",
+          background: bgGrads[activeIndex % bgGrads.length],
         }}
       />
 
