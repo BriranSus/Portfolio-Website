@@ -1,3 +1,4 @@
+import { getAssetUrl } from '../../utils/assetUrl';
 import React, { useState, useMemo } from "react";
 import { CERTIFICATES, CertificateItem } from "../../data/certificatesData";
 import { motion, AnimatePresence } from "framer-motion";
@@ -133,7 +134,7 @@ export function CertificatesSection() {
                 >
                   {!hasImgError ? (
                     <img
-                      src={cert.image}
+                      src={getAssetUrl(cert.image)}
                       alt={cert.title}
                       onError={() => handleImageError(cert.id)}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
@@ -256,7 +257,7 @@ export function CertificatesSection() {
                   >
                     {!hasImgError ? (
                       <img
-                        src={cert.image}
+                        src={getAssetUrl(cert.image)}
                         alt={cert.title}
                         onError={() => handleImageError(cert.id)}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
@@ -411,7 +412,7 @@ export function CertificatesSection() {
 
             <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] rounded-xl overflow-hidden border border-white/15 bg-[#000611] my-2 sm:my-3 flex items-center justify-center">
               <img
-                src={modalCert.image}
+                src={getAssetUrl(modalCert.image)}
                 alt={modalCert.title}
                 onError={() => handleImageError(modalCert.id)}
                 className="w-full h-full object-contain bg-black/50"

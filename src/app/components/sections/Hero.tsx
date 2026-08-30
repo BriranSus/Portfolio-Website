@@ -1,3 +1,4 @@
+import { getAssetUrl } from '../../utils/assetUrl';
 import { useState } from "react";
 import { ArrowDownRight, ShieldCheck, Sparkles, User } from "lucide-react";
 import { SplitChars } from "../common/TextAnimations";
@@ -44,7 +45,7 @@ export function Hero({
             <div className="w-full h-full rounded-full overflow-hidden bg-[#000611] border-2 border-white/25">
               {!imgError ? (
                 <img
-                  src="/profile.JPG"
+                  src={getAssetUrl("/profile.JPG")}
                   alt="Alexander Brian Susanto"
                   onError={() => setImgError(true)}
                   className="w-full h-full object-cover scale-125 transition-transform duration-500" style={{ objectPosition: "48% 40%" }}
@@ -270,7 +271,7 @@ export function Hero({
               <div className="relative z-10 flex-1 my-3 rounded-xl overflow-hidden border border-white/10 bg-[#000611] flex items-center justify-center group-hover:border-[#00f5c4]/40 transition-colors">
                 {!imgError ? (
                   <img
-                    src="/profile.JPG"
+                    src={getAssetUrl("/profile.JPG")}
                     alt="Alexander Brian Susanto"
                     onError={() => setImgError(true)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-100"

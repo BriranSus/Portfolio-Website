@@ -1,3 +1,4 @@
+import { getAssetUrl } from '../../utils/assetUrl';
 import * as THREE from "three";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FLOOR_RX, getFloorHeight } from "../terrain/oceanTerrain";
@@ -6,7 +7,7 @@ const gltfLoader = new GLTFLoader();
 
 export function loadGLTF(url: string): Promise<GLTF> {
   return new Promise<GLTF>((resolve, reject) =>
-    gltfLoader.load(url, resolve, undefined, reject)
+    gltfLoader.load(getAssetUrl(url), resolve, undefined, reject)
   );
 }
 

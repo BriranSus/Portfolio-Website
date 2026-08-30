@@ -1,3 +1,4 @@
+import { getAssetUrl } from '../../utils/assetUrl';
 import React, { useRef, useState } from "react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Radio, ExternalLink } from "lucide-react";
 import { PROJECTS } from "../../data/projectsData";
@@ -115,7 +116,7 @@ export function ProjectsSection() {
               {/* Top: Square Thumbnail Image Container */}
               <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-[#000611] border border-white/10 mb-2">
                 <img
-                  src={project.img}
+                  src={getAssetUrl(project.img)}
                   alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
                 />
@@ -242,7 +243,7 @@ export function ProjectsSection() {
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <img
-                  src={project.img}
+                  src={getAssetUrl(project.img)}
                   alt={project.subtitle}
                   className="w-full h-full object-cover opacity-20 transition-all duration-700 scale-105"
                 />
